@@ -5,11 +5,16 @@ package com.example.tulin.camapp;
  */
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import java.io.IOException;
 
@@ -24,17 +29,19 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
-    //    Log.d(CameraCaptureActivity.LOG_TAG, "mCamera :: " + mCamera);
+        //    Log.d(CameraCaptureActivity.LOG_TAG, "mCamera :: " + mCamera);
         this.mHolder = this.getHolder();
         this.mHolder.addCallback(this);
         this.mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-      //  Log.d(CameraCaptureActivity.LOG_TAG, "mSurfaceHolder :: " + mHolder);
+        //  Log.d(CameraCaptureActivity.LOG_TAG, "mSurfaceHolder :: " + mHolder);
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
+
             mCamera.setPreviewDisplay(holder);
+           // mCamera.setDisplayOrientation(90);
             mCamera.startPreview();
         } catch (IOException e) {
             Log.d("TAG", "Error setting camera preview: " + e.getMessage());
@@ -70,6 +77,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // start preview with new settings
         try {
+            //Get current screen orientation
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
 
