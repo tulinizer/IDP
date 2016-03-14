@@ -5,16 +5,11 @@ package com.example.tulin.camapp;
  */
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.util.Log;
-import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
 
 import java.io.IOException;
 
@@ -41,7 +36,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         try {
 
             mCamera.setPreviewDisplay(holder);
-           // mCamera.setDisplayOrientation(90);
+            // mCamera.setDisplayOrientation(90);
             mCamera.startPreview();
         } catch (IOException e) {
             Log.d("TAG", "Error setting camera preview: " + e.getMessage());

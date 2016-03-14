@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">CamApp</string>
     <string name="action_settings">Settings</string>
-    <string name="button1">Record button</string>
+    <string name="title_activity_video_editing">VideoEditing</string>
 </resources>

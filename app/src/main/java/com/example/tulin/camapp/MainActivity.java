@@ -56,7 +56,12 @@ public class MainActivity extends Activity {
                             mCamera.lock();         // take camera access back from MediaRecorder
 
                             // inform the user that recording has stopped
-                            captureButton.setText("Capture");
+
+                            // start video editing activity
+                            Intent intent = new Intent(MainActivity.this, VideoEditing.class);
+                            startActivity(intent);
+
+                            //    captureButton.setText("Capture");
                             isRecording = false;
                         } else {
                             // initialize video camera
@@ -127,7 +132,7 @@ public class MainActivity extends Activity {
 
     private boolean prepareVideoRecorder(){
 
-      //  mCamera = getCameraInstance();
+        //  mCamera = getCameraInstance();
         mMediaRecorder = new MediaRecorder();
 
         // Step 1: Unlock and set camera to MediaRecorder
@@ -173,7 +178,7 @@ public class MainActivity extends Activity {
         // using Environment.getExternalStorageState() before doing this.
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+                Environment. DIRECTORY_PICTURES), "MyCameraApp");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
@@ -189,14 +194,14 @@ public class MainActivity extends Activity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
         if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator+ ""/*timeStamp*/ + ".mp4");
+            Log.d(mediaStorageDir.getPath() + File.separator + ".mp4"
+                    , " df");
         } else {
             return null;
         }
 
         return mediaFile;
     }
-
 
 }
