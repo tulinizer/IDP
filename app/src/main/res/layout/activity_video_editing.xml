@@ -3,12 +3,20 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <VideoView
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
-        android:layout_height="264dp"
-        android:id="@+id/video_view"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" >
+
+        <VideoView
+            android:layout_width="480dp"
+            android:layout_height="200dp"
+            android:id="@+id/video_view" />
+    </LinearLayout>
+
 
     <Button
         android:layout_width="wrap_content"
@@ -16,7 +24,7 @@
         android:text="Pause"
         android:id="@+id/pause_button"
         android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/linearLayout1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -26,28 +34,44 @@
         android:text="Play"
         android:id="@+id/play_button"
         android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/linearLayout1"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <FrameLayout
+        android:id="@+id/range_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" >
+    </FrameLayout>
+
     <HorizontalScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/horizontal_scroll"
-        android:layout_below="@+id/video_view"
-        android:layout_marginTop="53dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="400dp"
+        android:scrollbars="none">
 
         <LinearLayout
                 android:id="@+id/linear_images"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal" >
         </LinearLayout>
 
     </HorizontalScrollView>
 
-
+    <com.example.tulin.camapp.CustomBordersVideoFrame
+        android:id="@+id/thumbs_borders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="400dp" />
 
 </RelativeLayout>
