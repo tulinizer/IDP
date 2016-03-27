@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import java.io.File;
 import android.net.Uri;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -94,6 +97,7 @@ public class MainActivity extends Activity {
     private void releaseMediaRecorder(){
         if (mMediaRecorder != null) {
             mMediaRecorder.reset();   // clear recorder configuration
+
             mMediaRecorder.release(); // release the recorder object
             mMediaRecorder = null;
             mCamera.lock();           // lock camera for later use
@@ -191,11 +195,11 @@ public class MainActivity extends Activity {
         }
 
         // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+      //  String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
         if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator+ ""/*timeStamp*/ + ".mp4");
-            Log.d(mediaStorageDir.getPath() + File.separator + ".mp4"
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator+ "VID" + ".mp4");
+            Log.d(mediaStorageDir.getPath() + ".mp4"
                     , " df");
         } else {
             return null;
