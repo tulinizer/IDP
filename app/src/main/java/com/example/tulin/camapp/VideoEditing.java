@@ -31,14 +31,14 @@ public class VideoEditing extends Activity {
 
     private File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
             Environment. DIRECTORY_PICTURES), "MyCameraApp");
-    //private String path = mediaStorageDir.getPath() + File.separator + "VID" + ".mp4";
+    private String path = mediaStorageDir.getPath() + File.separator + "VID" + ".mp4";
 
     Boolean initialState = true;
     Boolean initSeekbar = true;
     Boolean videoIsBeingTouched = false;
     int currentMinPos, currentMaxPos, videoDuration, previewEndPos, previewStartPos, stopPos;
     CustomBordersVideoFrame borders;
-    private String path = Environment.getExternalStorageDirectory() + "/big_buck_bunn_short.mp4";
+   // private String path = Environment.getExternalStorageDirectory() + "/big_buck_bunn_short.mp4";
     Handler mHandler=new Handler();
 
     @Override
@@ -105,8 +105,11 @@ public class VideoEditing extends Activity {
             }
         });
 
-
-        int sampleNo = videoDuration/14;
+        int sampleNo = 1;
+        if (videoDuration < 14) {
+            // TODO
+        } else
+            sampleNo = videoDuration/14;
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.linear_images);
 
@@ -114,6 +117,8 @@ public class VideoEditing extends Activity {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setId(i);
             Log.d("i", String.valueOf(i));
+            Log.d("duration", String.valueOf(videoDuration));
+            Log.d("sampleno", String.valueOf(sampleNo));
 
 
         //    linearLayout.setLayoutParams(new LayoutParams(65, 65));
@@ -164,25 +169,25 @@ public class VideoEditing extends Activity {
                 if (initialState && minValue != 0) {
                     initialState = false;
                     currentMinPos = minValue;
-                    videoView.seekTo(currentMinPos * 1000000);
+                    videoView.seekTo(currentMinPos * 1000);
                     Log.d("setminInitial",String.valueOf(currentMinPos));
                 }
                 else if (initialState && maxValue != (videoDuration)){
                     initialState = false;
                     currentMaxPos = maxValue;
-                    videoView.seekTo(currentMaxPos * 1000000);
+                    videoView.seekTo(currentMaxPos * 1000);
                     Log.d("setmaxInitial",String.valueOf(currentMaxPos));
                 }
 
                 //Handle current stage
                 if (currentMaxPos == maxValue){
                     currentMinPos = minValue;
-                    videoView.seekTo(currentMinPos * 1000000);
+                    videoView.seekTo(currentMinPos * 1000);
                     Log.d("setmin",String.valueOf(currentMinPos));
                 }
                 else if (currentMinPos == minValue ){
                     currentMaxPos = maxValue;
-                    videoView.seekTo(currentMaxPos * 1000000);
+                 //   videoView.seekTo(currentMaxPos * 1000);
                     Log.d("setmax",String.valueOf(currentMaxPos));
                 }
                 Log.d("seekbar1", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
