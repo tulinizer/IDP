@@ -48,7 +48,6 @@ public class CustomBordersVideoFrame extends View {
         mOffset = offset;
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

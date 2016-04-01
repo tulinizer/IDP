@@ -13,7 +13,7 @@
 
         <VideoView
             android:layout_width="480dp"
-            android:layout_height="200dp"
+            android:layout_height="326dp"
             android:id="@+id/video_view" />
     </LinearLayout>
 
@@ -21,8 +21,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pause"
-        android:id="@+id/pause_button"
+        android:text="Play"
+        android:id="@+id/play_button"
         android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout1"
         android:layout_alignParentLeft="true"
@@ -31,8 +31,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play"
-        android:id="@+id/play_button"
+        android:text="Pause"
+        android:id="@+id/pause_button"
         android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout1"
         android:layout_alignParentRight="true"
@@ -53,8 +53,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="400dp"
-        android:scrollbars="none">
+        android:layout_marginTop="400dp">
 
         <LinearLayout
                 android:id="@+id/linear_images"
@@ -65,13 +64,36 @@
 
     </HorizontalScrollView>
 
-    <com.example.tulin.camapp.CustomBordersVideoFrame
-        android:id="@+id/thumbs_borders"
-        android:layout_width="match_parent"
+    <!-- android:progressDrawable="@android:color/transparent" -->
+    <SeekBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+
+        android:thumb="@drawable/seekbar_norm"
+        android:layout_marginTop="362dp"
+        android:layout_alignLeft="@id/horizontal_scroll"
+        android:layout_alignRight="@id/horizontal_scroll" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Split"
+        android:id="@+id/split_button"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="400dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Merge"
+        android:id="@+id/merge_button"
+        android:layout_alignTop="@+id/split_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
 
 </RelativeLayout>
