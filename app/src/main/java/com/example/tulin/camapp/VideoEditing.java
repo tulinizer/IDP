@@ -5,11 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
-import android.view.ViewDebug;
-import android.widget.SeekBar;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -22,44 +19,35 @@ import android.os.Environment;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.VideoView;
 import android.view.ViewGroup.LayoutParams;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
-public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeListener {
+public class VideoEditing extends Activity {
 
     private VideoView videoView;
 
-   // private  TwoThumbsSeekbar<Integer> seekBar;
+    private  TwoThumbsSeekbar<Integer> seekBar;
 
     private File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
             Environment. DIRECTORY_PICTURES), "MyCameraApp");
-  //  private String path = mediaStorageDir.getPath() + File.separator + "VID" + ".mp4";
-
+    //private String path = mediaStorageDir.getPath() + File.separator + "VID" + ".mp4";
+    private Context context;
     Boolean initialState = true;
     Boolean initSeekbar = true;
     Boolean videoIsBeingTouched = false;
-    int videoDuration;
-    int currentMinPos, currentMaxPos = 1;
+    int currentMinPos, currentMaxPos, videoDuration, previewEndPos, previewStartPos, stopPos;
     CustomBordersVideoFrame borders;
     private String path = Environment.getExternalStorageDirectory() + "/big_buck_bunn_short.mp4";
     Handler mHandler=new Handler();
-    private Context context;
-   // private MediaPlayer mp;
-    private SeekBar videoProgressBar;
-    private Utilities utils;
-    int sampleFreq = 1;
-    HashMap<Integer, Bitmap> frames;
     ArrayList<Bitmap> frameList;
+    int sampleFreq = 1;
     Bitmap icon;
     LinearLayout layout;
-    int TOTALFRAME = 14;
+    int TOTALFRAME = 13;
 
 
     @Override
@@ -67,25 +55,19 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_editing);
 
-        context = this;
-
         videoView = (VideoView) findViewById(R.id.video_view);
         Button playButton = (Button) findViewById(R.id.play_button);
         Button pauseButton = (Button) findViewById(R.id.pause_button);
-     //   borders = (CustomBordersVideoFrame) findViewById(R.id.thumbs_borders);
-        videoProgressBar = (SeekBar) findViewById(R.id.seekBar);
+        borders = (CustomBordersVideoFrame) findViewById(R.id.thumb_borders);
         Button splitButton = (Button) findViewById(R.id.split_button);
-        videoProgressBar.bringToFront();
-
-        icon = BitmapFactory.decodeResource(context.getResources(),
+        icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.music2);
 
+        context = this;
+        //Creating MediaController
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
-        utils = new Utilities();
-
-        // Listeners
-        videoProgressBar.setOnSeekBarChangeListener(this); // Important
+        //  videoView.setMediaController(mediaController);
 
         //specify the location of media file
         Uri uri = Uri.parse(path);
@@ -105,15 +87,14 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
         }
 
 
-
         if (videoDuration < TOTALFRAME) {
             // TODO
         } else
             sampleFreq = videoDuration/TOTALFRAME;
 
-        layout = (LinearLayout) findViewById(R.id.linear_images);
-        frames = new HashMap<Integer, Bitmap>();
+
         frameList = new ArrayList<Bitmap>();
+        layout = (LinearLayout) findViewById(R.id.linear_images);
 
         int k = 0;
         for (int i = 0; i < videoDuration; i = i+sampleFreq) {
@@ -123,13 +104,10 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
             Log.d("duration", String.valueOf(videoDuration));
             Log.d("sampleno", String.valueOf(sampleFreq));
 
-        //    linearLayout.setLayoutParams(new LayoutParams(65, 65));
-          //  linearLayout.setGravity(Gravity.CENTER);
-
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(i * 1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, 65, 65, true);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, 35, 35, true);
 
-            frames.put(k, bm);
+         //   frames.put(k, bm);
             frameList.add(bm);
             k++;
 
@@ -139,16 +117,77 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
 
             imageView.setImageBitmap(bm);
             layout.addView(imageView);
-        }
-        playButton.setOnClickListener(new View.OnClickListener() {
 
+
+        seekBar = new TwoThumbsSeekbar<Integer>(0, videoDuration, this);
+        initSeekbar();
+
+        videoView.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View view) {
-
-                videoView.start();
-                updateProgressBar();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (!videoIsBeingTouched) {
+                    videoIsBeingTouched = true;
+                    if (videoView.isPlaying()) {
+                        Log.d("pase", "pse");
+                        stopPos = videoView.getCurrentPosition();
+                        videoView.pause();
+                        //playbtn.setVisibility(View.VISIBLE);
+                    } else {
+                        videoView.seekTo(stopPos);
+                        Log.d(String.valueOf(stopPos), "res");
+                        videoView.start();
+                        //playbtn.setVisibility(View.INVISIBLE);
+                        //videoView.resume(); <== resets everytime so replaced by above code
+                    }
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            Log.d("flg", "set false");
+                            videoIsBeingTouched = false;
+                            Log.d("touchflg", "set");
+                        }
+                    }, 200);
+                }
+                return true;
             }
         });
+
+    /*    int sampleNo = videoDuration/14;
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linear_images);
+
+        for (int i = 0; i < videoDuration; i = i+sampleNo) {
+            ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setId(i);
+            Log.d("i", String.valueOf(i));
+
+
+            //    linearLayout.setLayoutParams(new LayoutParams(65, 65));
+            //  linearLayout.setGravity(Gravity.CENTER);
+
+            Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(i * 1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, 65, 65, true);
+
+            imageView.setLayoutParams(new LayoutParams(65, 65));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setImageBitmap(bmFrame);
+
+
+            imageView.setImageBitmap(bm);
+            layout.addView(imageView);
+
+*/
+        }
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    videoView.start();
+                }
+            });
+
+
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
 
@@ -170,7 +209,7 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
                 layout.removeAllViews();
 
                 int replaceId = currentMaxPos / sampleFreq;
-               // frames.put(replaceId, icon);
+                // frames.put(replaceId, icon);
                 frameList.add(replaceId, icon);
                 Log.d(String.valueOf(frameList.size()), "size");
 
@@ -178,7 +217,7 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
                     ImageView imageView = new ImageView(getApplicationContext());
 
                     if (frameList.get(i).equals(icon)) {
-             //           imageView.setLayoutParams(new LayoutParams(20, 20));
+                        //           imageView.setLayoutParams(new LayoutParams(20, 20));
                     } else {
                         imageView.setLayoutParams(new LayoutParams(65, 65));
                         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -190,76 +229,9 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
 
             }
         });
-
     }
 
-    /**
-     * Update timer on seekbar
-     * */
-    public void updateProgressBar() {
-        mHandler.postDelayed(mUpdateTimeTask, 10);
-    }
-
-    /**
-     * Background Runnable thread
-     * */
-    private Runnable mUpdateTimeTask = new Runnable() {
-        public void run() {
-            long totalDuration = videoView.getDuration();
-            long currentDuration = videoView.getCurrentPosition();
-
-            // Displaying Total Duration time
-          //  songTotalDurationLabel.setText(""+utils.milliSecondsToTimer(totalDuration));
-            // Displaying time completed playing
-            //songCurrentDurationLabel.setText(""+utils.milliSecondsToTimer(currentDuration));
-
-            // Updating progress bar
-            int progress = (int)(utils.getProgressPercentage(currentDuration, totalDuration));
-            //Log.d("Progress", ""+progress);
-            videoProgressBar.setProgress(progress);
-
-            // Running this thread after 10 milliseconds
-            mHandler.postDelayed(this, 10);
-        }
-    };
-
-    /**
-     *
-     * */
-    private int smoothnessFactor = 10;
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-
-    }
-
-    /**
-     * When user starts moving the progress handler
-     * */
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        // remove message Handler from updating progress bar
-        mHandler.removeCallbacks(mUpdateTimeTask);
-    }
-
-    /**
-     * When user stops moving the progress hanlder
-     * */
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        mHandler.removeCallbacks(mUpdateTimeTask);
-        int totalDuration = videoView.getDuration();
-        int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
-
-        // forward or backward to certain seconds
-        videoView.seekTo(currentPosition);
-
-        // update timer progress again
-        updateProgressBar();
-    }
-
-
-   /* private void initSeekbar() {
+    private void initSeekbar() {
 
         //Handle range seekbar
 
@@ -274,28 +246,30 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
                     initialState = false;
                     currentMinPos = minValue;
                     videoView.seekTo(currentMinPos * 1000);
-                    Log.d("setminInitial", String.valueOf(currentMinPos));
-                } else if (initialState && maxValue != (videoDuration)) {
+                    Log.d("setminInitial",String.valueOf(currentMinPos));
+                }
+                else if (initialState && maxValue != (videoDuration)){
                     initialState = false;
                     currentMaxPos = maxValue;
                     videoView.seekTo(currentMaxPos * 1000);
-                    Log.d("setmaxInitial", String.valueOf(currentMaxPos));
+                    Log.d("setmaxInitial",String.valueOf(currentMaxPos));
                 }
 
                 //Handle current stage
-                if (currentMaxPos == maxValue) {
+                if (currentMaxPos == maxValue){
                     currentMinPos = minValue;
                     videoView.seekTo(currentMinPos * 1000);
-                    Log.d("setmin", String.valueOf(currentMinPos));
-                } else if (currentMinPos == minValue) {
+                    Log.d("setmin",String.valueOf(currentMinPos));
+                }
+                else if (currentMinPos == minValue ){
                     currentMaxPos = maxValue;
-                    //   videoView.seekTo(currentMaxPos * 1000);
-                    Log.d("setmax", String.valueOf(currentMaxPos));
+                    videoView.seekTo(currentMaxPos * 1000);
+                    Log.d("setmax",String.valueOf(currentMaxPos));
                 }
                 Log.d("seekbar1", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
 
                 //Moveborders on thmbnails
-                borders.setParameters((Scaler(currentMinPos) * 4.85f), (Scaler(currentMaxPos) * 4.85f), 0);
+                borders.setParameters((Scaler(currentMinPos)*4.85f),(Scaler(currentMaxPos)*4.85f),0);
                 borders.invalidate();
 
                 //Set last End Pos so to stop at that time
@@ -317,8 +291,6 @@ public class VideoEditing extends Activity implements  SeekBar.OnSeekBarChangeLi
         }
 
     }
-*/
-
 
     private float Scaler(int val_to_scale){
 

@@ -39,10 +39,8 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
 
     private final Bitmap Left_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_min_normal);
     private final Bitmap Left_thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_min_pressed);
-    private final Bitmap Right_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_max_normal);
-    private final Bitmap Right_thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_max_pressed);
-    private Boolean isLeftThumb=false,isRightThumb=false;
-    public static boolean minThumbPressed,maxThumbPressed;
+    private Boolean isLeftThumb=false;
+    public static boolean minThumbPressed;
 
     private final float thumbWidth = Left_thumbImage_nrml.getWidth();
     private final float thumbHalfWidth = 0.5f * thumbWidth;
@@ -397,8 +395,7 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
         // draw minimum thumb
         drawLThumb(normalizedToScreen(normalizedMinValue), pressedThumb, canvas);
 
-        // draw maximum thumb
-        drawRThumb(normalizedToScreen(normalizedMaxValue), pressedThumb, canvas);
+
     }
 
     /**
@@ -441,11 +438,6 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
         isLeftThumb=false;
     }
 
-    private void drawRThumb(float screenCoord, Thumb pressed, Canvas canvas) {
-        Log.w("lftBoolean",isRightThumb.toString());
-        canvas.drawBitmap(isRightThumb ? Right_thumbPressedImage : Right_thumbImage_nrml, screenCoord - thumbHalfWidth, (float) ((0.5f * getHeight()) - thumbHalfHeight), paint);
-        isRightThumb=false;
-    }
 
     /**
      * Handle thumbs when user does not touch thumb or touches on seekbar
@@ -464,7 +456,7 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
      * @return The pressed thumb or null if none has been touched.
      */
     private Thumb evalPressedThumb(float touchX) {
-        Thumb result = null;
+  /*      Thumb result = null;
         minThumbPressed = isInThumbRange(touchX, normalizedMinValue);
         maxThumbPressed = isInThumbRange(touchX, normalizedMaxValue);
         if (minThumbPressed && maxThumbPressed) {
@@ -479,7 +471,8 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
             result = Thumb.MAX;
             isRightThumb=true;
         }
-        return result;
+        */
+        return Thumb.MIN;
     }
 
     /**
