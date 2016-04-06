@@ -51,9 +51,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/horizontal_scroll"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="400dp">
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:layout_marginTop="400px">
 
         <LinearLayout
                 android:id="@+id/linear_images"
@@ -74,15 +74,24 @@
         android:layout_alignBottom="@+id/horizontal_scroll" />
 
     <!-- android:progressDrawable="@android:color/transparent" -->
-    <!--SeekBar
+    <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
-
+        android:progressDrawable="@android:color/transparent"
         android:thumb="@drawable/seekbar_norm"
         android:layout_marginTop="362dp"
         android:layout_alignLeft="@id/horizontal_scroll"
-        android:layout_alignRight="@id/horizontal_scroll" -->
+        android:layout_alignRight="@id/horizontal_scroll" />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="0"
+        android:id="@+id/timestamp"
+        android:layout_marginTop="360dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/seekBar"
+        android:layout_alignStart="@+id/seekBar" />
 
 
     <Button
@@ -93,6 +102,8 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_toRightOf="@+id/play_button"
         android:layout_toEndOf="@+id/play_button" />
+
+
 
 
 </RelativeLayout>
