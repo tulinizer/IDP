@@ -23,4 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:23.2.0'
+    compile files('libs/aspectjrt-1.7.3.jar')
+    compile 'com.googlecode.mp4parser:isoparser:1.0-RC-2'
 }
