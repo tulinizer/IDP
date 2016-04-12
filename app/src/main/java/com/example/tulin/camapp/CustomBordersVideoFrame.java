@@ -44,7 +44,6 @@ public class CustomBordersVideoFrame extends View {
 
     public void setParameters(float start, float end, float offset) {
         mSelectionStart = start;
-        mSelectionEnd = end;
         mOffset = offset;
     }
 

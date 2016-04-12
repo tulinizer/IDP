@@ -148,8 +148,8 @@ public class SplitVideo extends AsyncTask<Void, Void, Void>{
                 long timestamp=new Date().getTime();
                 String timestampS="" + timestamp;
 
-                File myMovie = new File(storageDir, String.format("output-%s.mp4", timestampS));
-                Log.d("splitted", "outrput");
+                File myMovie = new File(storageDir, String.format("output1.mp4", timestampS));
+                Log.d("splitted", "output1");
 
                 FileOutputStream fos = new FileOutputStream(myMovie);
                 FileChannel fc = fos.getChannel();
