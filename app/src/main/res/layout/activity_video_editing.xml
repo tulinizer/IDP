@@ -51,9 +51,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/horizontal_scroll"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="30px"
-        android:layout_marginRight="30px"
-        android:layout_marginTop="400px">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="400dp">
 
         <LinearLayout
                 android:id="@+id/linear_images"
@@ -64,35 +64,15 @@
 
     </HorizontalScrollView>
 
-    <com.example.tulin.camapp.CustomBordersVideoFrame
-        android:id="@+id/thumb_borders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/horizontal_scroll"
-        android:layout_alignLeft="@+id/horizontal_scroll"
-        android:layout_alignStart="@+id/horizontal_scroll"
-        android:layout_alignBottom="@+id/horizontal_scroll" />
-
-    <!-- android:progressDrawable="@android:color/transparent" -->
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:progressDrawable="@android:color/transparent"
-        android:thumb="@drawable/seekbar_norm"
-        android:layout_marginTop="362dp"
-        android:layout_alignLeft="@id/horizontal_scroll"
-        android:layout_alignRight="@id/horizontal_scroll" />
     <TextView
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="0"
         android:id="@+id/timestamp"
-        android:layout_marginTop="360dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seekBar"
-        android:layout_alignStart="@+id/seekBar" />
-
+        android:layout_above="@+id/seekBar"
+        android:layout_alignLeft="@+id/horizontal_scroll"
+        android:layout_alignStart="@+id/horizontal_scroll" />
 
     <Button
         android:layout_width="wrap_content"
@@ -103,7 +83,29 @@
         android:layout_toRightOf="@+id/play_button"
         android:layout_toEndOf="@+id/play_button" />
 
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:thumb="@drawable/seekbar_norm"
+        android:maxHeight="700dp"
+        android:thumbOffset="8dp"
+        android:progressDrawable="@android:color/transparent"
+        android:layout_alignBottom="@+id/horizontal_scroll"
+        android:layout_alignTop="@+id/horizontal_scroll"
+        android:layout_alignLeft="@+id/horizontal_scroll"
+        android:layout_alignRight="@+id/horizontal_scroll"
+        android:layout_alignStart="@+id/horizontal_scroll" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconView"
+        android:layout_alignLeft="@+id/horizontal_scroll"
+        android:layout_alignBottom="@+id/horizontal_scroll"
+        android:layout_alignTop="@+id/horizontal_scroll"
+        android:layout_alignRight="@+id/horizontal_scroll"
+        android:layout_alignEnd="@+id/horizontal_scroll"/>
 
 
 </RelativeLayout>
