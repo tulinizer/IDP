@@ -38,27 +38,20 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <FrameLayout
-        android:id="@+id/range_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" >
-    </FrameLayout>
 
     <HorizontalScrollView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/horizontal_scroll"
-        android:layout_alignParentLeft="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="400dp">
 
         <LinearLayout
                 android:id="@+id/linear_images"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal" >
         </LinearLayout>
 
@@ -84,22 +77,20 @@
         android:layout_toEndOf="@+id/play_button" />
 
     <SeekBar
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
         android:thumb="@drawable/seekbar_norm"
         android:maxHeight="700dp"
-        android:thumbOffset="8dp"
         android:progressDrawable="@android:color/transparent"
-        android:layout_alignBottom="@+id/horizontal_scroll"
-        android:layout_alignTop="@+id/horizontal_scroll"
-        android:layout_alignLeft="@+id/horizontal_scroll"
-        android:layout_alignRight="@+id/horizontal_scroll"
-        android:layout_alignStart="@+id/horizontal_scroll" />
+        android:layout_alignBottom="@id/horizontal_scroll"
+        android:layout_alignTop="@id/horizontal_scroll"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/iconView"
         android:layout_alignLeft="@+id/horizontal_scroll"
         android:layout_alignBottom="@+id/horizontal_scroll"

@@ -2,6 +2,7 @@ package com.example.tulin.camapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -10,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
@@ -51,12 +53,12 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
     ArrayList<Bitmap> frameList;
     Bitmap icon;
     LinearLayout layout;
-    int TOTALFRAME = 15;
-    int padding = 25, frameWidth = 65, frameHeight = 65;
+    int TOTALFRAME = 14;
+    int padding = 25, frameWidth = 10, frameHeight = 10;
     HorizontalScrollView scrollView;
     TextView textView;
     int seekbarWidth;
-    int iconWidth = 20;
+    int iconWidth = 10;
 
 
     @Override
@@ -87,14 +89,14 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        seekbarWidth = size.x - (padding*2);
+        int dp = size.x / (int)getResources().getDisplayMetrics().density ;
+
+        Resources r = getResources();
+        float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, r.getDisplayMetrics());
+
+        seekbarWidth = dp - (padding*2);
+
         Log.d(String.valueOf(seekbarWidth), "width");
-
-       // Drawable thumb = getResources().getDrawable(R.drawable.seekbar_norm);
-       // videoProgressBar.bringToFront();
-     //   videoProgressBar.setThumb(thumb);
-      //  videoProgressBar.setThumbOffset(10);
-
 
         // Listener
         videoProgressBar.setOnSeekBarChangeListener(this);
@@ -109,10 +111,10 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
         mediaMetadataRetriever.setDataSource(path);
 
         String time = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        long durationLong = 1L;
+        double durationLong = 1L;
         if (time != null) {
             videoDuration = Integer.parseInt(time);
-            durationLong = Long.parseLong(time);
+            durationLong = Long.parseLong(time) * 1000;
         }
         if (videoDuration != 0) {
             videoDuration /= 1000;
@@ -123,7 +125,11 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
         layout = (LinearLayout) findViewById(R.id.linear_images);
         frameList = new ArrayList<Bitmap>();
 
-        long frameTime = 1L;
+        Log.d("frame width: ", String.valueOf(frameWidth));
+
+        double frameTime = 0.;
+        double d = durationLong/(double)TOTALFRAME;
+
         for (int i = 0; i < TOTALFRAME; i++) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setId(i);
@@ -132,10 +138,11 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
             Log.d("duration", String.valueOf(videoDuration));
 
 
-            frameTime = durationLong/(long)TOTALFRAME * i * 1000;
             Log.d("time frame", String.valueOf(frameTime));
-            Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(frameTime, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+            Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long)frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
             Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
+
+            frameTime += d;
 
             frameList.add(bm);
 
@@ -148,7 +155,6 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
 
             imageView.setImageBitmap(bm);
             layout.addView(imageView);
-
         }
         
 
@@ -209,7 +215,7 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
 
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(iconWidth, frameHeight);
                 params.leftMargin = thumbPos;
-                //params.topMargin = 60;
+                iconView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 iconLayout.addView(iconView, params);
 
 //                layout.addView(iconView);
@@ -233,9 +239,6 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
                     imageView.setImageBitmap(frameList.get(i));
                     layout.addView(imageView);
                 }
-
-
-
 
             }
         });
