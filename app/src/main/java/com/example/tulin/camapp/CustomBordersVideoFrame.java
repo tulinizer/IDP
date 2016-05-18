@@ -27,8 +27,8 @@ public class CustomBordersVideoFrame extends View {
         mBorderLinePaint.setStrokeWidth(4f);
         mBorderLinePaint.setColor(Color.argb(0xFF, 0x33, 0xB5, 0xE5)); //Ice-cream sandwich blue aka match scrubbers
 
-        //Take default height as 65
-        mHeight = 65;
+        //Take default height as 86
+        mHeight = 86;
     }
 
     public CustomBordersVideoFrame (Context context, AttributeSet attrs, Float height) {
@@ -44,8 +44,10 @@ public class CustomBordersVideoFrame extends View {
 
     public void setParameters(float start, float end, float offset) {
         mSelectionStart = start;
+        mSelectionEnd = end;
         mOffset = offset;
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

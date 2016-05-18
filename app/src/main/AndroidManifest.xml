@@ -36,7 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Record"
+            android:name=".VideoEditingTT"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

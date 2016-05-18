@@ -71,10 +71,10 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
         videoView = (VideoView) findViewById(R.id.video_view);
         Button playButton = (Button) findViewById(R.id.play_button);
         Button pauseButton = (Button) findViewById(R.id.pause_button);
-        videoProgressBar = (SeekBar) findViewById(R.id.seekBar);
+     //   videoProgressBar = (SeekBar) findViewById(R.id.seekBar);
         Button splitButton = (Button) findViewById(R.id.split_button);
 
-        textView = (TextView) findViewById(R.id.timestamp);
+      //  textView = (TextView) findViewById(R.id.timestamp);
         textView.bringToFront();
         scrollView = (HorizontalScrollView) findViewById(R.id.horizontal_scroll);
 
@@ -89,7 +89,7 @@ public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeLis
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int dp = size.x / (int)getResources().getDisplayMetrics().density ;
+        int dp = size.x / (int)getResources().getDisplayMetrics().density;
 
         Resources r = getResources();
         float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, r.getDisplayMetrics());

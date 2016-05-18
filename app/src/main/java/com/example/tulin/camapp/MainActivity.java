@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             // Video captured and saved to fileUri specified in the Intent
         //    Toast.makeText(this, "Video saved to:\n" +  data.getData(), Toast.LENGTH_LONG).show();
 
-            Intent intent = new Intent(MainActivity.this, VideoEditing.class);
+            Intent intent = new Intent(MainActivity.this, VideoEditingTT.class);
             startActivity(intent);
 
         } else if (resultCode == RESULT_CANCELED) {
