@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="frame_size_values">
+        <item>640 x 480</item>
+        <item>1024 x 768</item>
+        <item>1280 x 720</item>
+    </string-array>
+    <string-array name="video_bit_rate_values">
+        <item>5000</item>
+        <item>4000</item>
+        <item>3000</item>
+        <item>2000</item>
+        <item>1000</item>
+    </string-array>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
@@ -282,8 +294,16 @@
     <string name="app_name">CamApp</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
+    <string name="button_text_start">Start</string>
+    <string name="button_text_stop">Stop</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
+    <string name="grayscale_text">grayscale</string>
+    <string name="image_button_play">Start playing button.</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="streaming_server_default_app">live</string>
+    <string name="streaming_server_default_ip">10.125.226.116</string>
+    <string name="streaming_server_default_port">1935</string>
+    <string name="streaming_server_default_stream">mp4:test</string>
     <string name="title_activity_video_editing">VideoEditing</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
@@ -1561,6 +1581,34 @@
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>
     <style name="ThemeOverlay.AppCompat.Dark.ActionBar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light"/>
+    <style name="TimelineItemBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:background">@drawable/timeline_item_bar_background</item>
+    </style>
+    <style name="TimelineItemButton">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+    </style>
+    <style name="TimelineItemDeleteButton" parent="TimelineItemButton">
+        <item name="android:src">@drawable/ic_delete</item>
+        <item name="android:background">@drawable/timeline_item_button_background</item>
+    </style>
+    <style name="TimelineItemOpenButton" parent="TimelineItemButton">
+        <item name="android:src">@drawable/ic_open</item>
+        <item name="android:background">@drawable/timeline_item_button_background</item>
+    </style>
+    <style name="TimelineItemTitle" parent="TimelineItemButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
     <style name="Widget.AppCompat.ActionBar" parent="Base.Widget.AppCompat.ActionBar">
     </style>
     <style name="Widget.AppCompat.ActionBar.Solid" parent="Base.Widget.AppCompat.ActionBar.Solid">

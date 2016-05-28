@@ -16,5 +16,37 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="TimelineItemBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:background">@drawable/timeline_item_bar_background</item>
+    </style>
+
+    <style name="TimelineItemButton">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+    </style>
+
+    <style name="TimelineItemOpenButton" parent="TimelineItemButton">
+        <item name="android:src">@drawable/ic_open</item>
+        <item name="android:background">@drawable/timeline_item_button_background</item>
+    </style>
+
+    <style name="TimelineItemDeleteButton" parent="TimelineItemButton">
+        <item name="android:src">@drawable/ic_delete</item>
+        <item name="android:background">@drawable/timeline_item_button_background</item>
+    </style>
+
+    <style name="TimelineItemTitle" parent="TimelineItemButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 
 </resources>

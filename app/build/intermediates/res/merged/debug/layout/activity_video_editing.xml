@@ -87,12 +87,10 @@
 
     <TextView
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text=" 1000"
         android:id="@+id/timestampMax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="380dp"/>
-
+        android:layout_marginTop="380dp" />
 
     <!--SeekBar
         android:layout_width="match_parent"
@@ -115,6 +113,15 @@
         android:layout_alignTop="@+id/horizontal_scroll"
         android:layout_alignRight="@+id/horizontal_scroll"
         android:layout_alignEnd="@+id/horizontal_scroll"/>
+
+    <com.example.tulin.camapp.DrawRect
+        android:id="@+id/rect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="400dp" />
 
     <!--com.example.tulin.camapp.CustomBordersVideoFrame
         android:id="@+id/thumbs_borders"

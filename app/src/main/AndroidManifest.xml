@@ -39,6 +39,16 @@
             android:name=".VideoEditingTT"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".ComposerCutCoreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Cut Video Core">
+        </activity>
+        <activity
+            android:name=".ComposerTranscodeCoreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Transcode Video Core">
+        </activity>
     </application>
 
 </manifest>

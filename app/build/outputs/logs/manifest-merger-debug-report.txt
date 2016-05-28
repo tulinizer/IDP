@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:2:1-44:12
+ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:2:1-54:12
 	xmlns:android
 		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:2:11-69
 	package
@@ -38,7 +38,7 @@ ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest
 	android:name
 		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:11:22-68
 application
-ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:13:5-42:19
+ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:13:5-52:19
 MERGED from [com.android.support:design:23.2.0] /home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/design/23.2.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.2.0] /home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:23.2.0] /home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/AndroidManifest.xml:25:5-20
@@ -96,8 +96,25 @@ ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest
 		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:40:13-56
 	android:name
 		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:39:13-43
+activity#com.example.tulin.camapp.ComposerCutCoreActivity
+ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:42:9-46:20
+	android:label
+		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:45:13-43
+	android:configChanges
+		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:44:13-74
+	android:name
+		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:43:13-52
+activity#com.example.tulin.camapp.ComposerTranscodeCoreActivity
+ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:47:9-51:20
+	android:label
+		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:50:13-49
+	android:configChanges
+		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:49:13-74
+	android:name
+		ADDED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml:48:13-58
 uses-sdk
 INJECTED from /home/tulin/AndroidStudioProjects/CamApp/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:multidex:1.0.1] /home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/AndroidManifest.xml:18:5-42
 MERGED from [com.android.support:design:23.2.0] /home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/design/23.2.0/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:recyclerview-v7:23.2.0] /home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.2.0/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.2.0] /home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43

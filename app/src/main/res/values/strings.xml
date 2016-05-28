@@ -2,4 +2,25 @@
     <string name="app_name">CamApp</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_video_editing">VideoEditing</string>
+    <!-- for frameSize_spinner -->
+    <string-array name="frame_size_values">
+        <item>640 x 480</item>
+        <item>1024 x 768</item>
+        <item>1280 x 720</item>
+    </string-array>
+    <!-- for videoBitRate_spinner -->
+    <string-array name="video_bit_rate_values">
+        <item>5000</item>
+        <item>4000</item>
+        <item>3000</item>
+        <item>2000</item>
+        <item>1000</item>
+    </string-array>
+    <string name="button_text_start">Start</string>
+    <string name="button_text_stop">Stop</string>
+    <string name="image_button_play">Start playing button.</string>
+    <string name="streaming_server_default_ip">10.125.226.116</string>
+    <string name="streaming_server_default_port">1935</string>
+    <string name="streaming_server_default_app">live</string>
+    <string name="streaming_server_default_stream">mp4:test</string><string name="grayscale_text">grayscale</string>
 </resources>

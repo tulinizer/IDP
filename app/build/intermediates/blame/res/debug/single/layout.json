@@ -1,19 +1,11 @@
 [
     {
-        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
-        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_select_dialog_material.xml"
-    },
-    {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_screen_toolbar.xml"
     },
     {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_alert_dialog_button_bar_material.xml",
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_alert_dialog_button_bar_material.xml"
-    },
-    {
-        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/notification_media_cancel_action.xml",
-        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/notification_media_cancel_action.xml"
     },
     {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/activity_main.xml",
@@ -24,16 +16,36 @@
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_action_mode_bar.xml"
     },
     {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_search_view.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_search_view.xml"
+    },
+    {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/popup_streaming_settings.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/src/main/res/layout/popup_streaming_settings.xml"
+    },
+    {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/popup_message.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/src/main/res/layout/popup_message.xml"
+    },
+    {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/composer_cut_activity.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/src/main/res/layout/composer_cut_activity.xml"
+    },
+    {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/notification_media_cancel_action.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/notification_media_cancel_action.xml"
+    },
+    {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/design_navigation_item_subheader.xml",
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/design/23.2.0/res/layout/design_navigation_item_subheader.xml"
     },
     {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_action_menu_layout.xml",
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_action_menu_layout.xml"
-    },
-    {
-        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_search_view.xml",
-        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_search_view.xml"
     },
     {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/abc_screen_simple.xml",
@@ -92,6 +104,10 @@
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/abc_action_mode_close_item_material.xml"
     },
     {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/timeline_item.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/src/main/res/layout/timeline_item.xml"
+    },
+    {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/notification_template_lines.xml",
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/notification_template_lines.xml"
     },
@@ -138,6 +154,14 @@
     {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/notification_template_media.xml",
         "source": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/layout/notification_template_media.xml"
+    },
+    {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/composer_transcode_activity.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/src/main/res/layout/composer_transcode_activity.xml"
+    },
+    {
+        "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/composer_transcode_core_activity.xml",
+        "source": "/home/tulin/AndroidStudioProjects/CamApp/app/src/main/res/layout/composer_transcode_core_activity.xml"
     },
     {
         "merged": "/home/tulin/AndroidStudioProjects/CamApp/app/build/intermediates/res/merged/debug/layout/design_layout_tab_text.xml",

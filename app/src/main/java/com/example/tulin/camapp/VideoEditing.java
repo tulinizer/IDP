@@ -32,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+
 public class VideoEditing extends Activity implements SeekBar.OnSeekBarChangeListener {
 
     private VideoView videoView;

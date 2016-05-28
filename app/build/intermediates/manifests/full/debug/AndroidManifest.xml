@@ -50,6 +50,16 @@
             android:name="com.example.tulin.camapp.VideoEditingTT"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name="com.example.tulin.camapp.ComposerCutCoreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Cut Video Core" >
+        </activity>
+        <activity
+            android:name="com.example.tulin.camapp.ComposerTranscodeCoreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Transcode Video Core" >
+        </activity>
     </application>
 
 </manifest>

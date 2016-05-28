@@ -1,6 +1,7 @@
 package com.example.tulin.camapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,11 +39,13 @@ public class VideoEditingTT extends Activity {
 
     private File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES), "MyCameraApp");
-    private String path = mediaStorageDir.getPath() + File.separator + "VID" + ".mp4";
+    private String fileName = "VID.mp4";
+    private String path = mediaStorageDir.getPath() + File.separator + fileName;
+    private Uri fileUri = Uri.parse(path.toString());
 
-    Boolean initialState = true;
-    Boolean initSeekbar = true;
-    Boolean videoIsBeingTouched = false;
+    boolean initialState = true;
+    boolean initSeekbar = true;
+    boolean videoIsBeingTouched = false;
     double videoDuration, stopPos;
     double currentMinPos, currentMaxPos,  previewEndPos, previewStartPos;
     double durationDouble;
@@ -56,6 +59,8 @@ public class VideoEditingTT extends Activity {
     LinearLayout layout;
     int screenWidthPx;
     TextView textViewMin, textViewMax;
+    boolean playing = false;
+    DrawRect rect;
 
     float textViewPadding;
 
@@ -67,7 +72,9 @@ public class VideoEditingTT extends Activity {
         videoView = (VideoView) findViewById(R.id.video_view);
         final Button playButton = (Button) findViewById(R.id.play_button);
         Button pauseButton = (Button) findViewById(R.id.pause_button);
-      //  borders = (CustomBordersVideoFrame) findViewById(R.id.thumbs_borders);
+        Button splitButton = (Button) findViewById(R.id.split_button);
+        rect = (DrawRect) findViewById(R.id.rect);
+
         textViewMin = (TextView) findViewById(R.id.timestampMin);
         textViewMax = (TextView) findViewById(R.id.timestampMax);
         textViewMin.bringToFront();
@@ -95,7 +102,7 @@ public class VideoEditingTT extends Activity {
         Log.d(String.valueOf(textViewPadding), "padding in px");
 
         //specify the location of media file
-        Uri uri = Uri.parse(path);
+        final Uri uri = Uri.parse(path);
         //Setting MediaController and URI, then starting the videoView
         videoView.setVideoURI(uri);
 
@@ -119,6 +126,9 @@ public class VideoEditingTT extends Activity {
         initSeekbar();
 
         CalculateFrameSize(seekbarWidth);
+        rect.setHeight(frameHeight);
+        rect.width = seekbarWidth;
+        rect.mSelectionEnd = seekbarWidth;
 
         layout = (LinearLayout) findViewById(R.id.linear_images);
         frameList = new ArrayList<Bitmap>();
@@ -136,13 +146,14 @@ public class VideoEditingTT extends Activity {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setId(i);
 
-            frameTime += frameFreq;
-            Log.d("frame Time", String.valueOf(frameTime));
 
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long)frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
             Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
 
-    //        frameList.add(bm);
+            frameTime += frameFreq;
+            Log.d("frame Time", String.valueOf(frameTime));
+
+            //        frameList.add(bm);
             imageView.setLayoutParams(new LayoutParams(frameWidth, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -158,18 +169,47 @@ public class VideoEditingTT extends Activity {
             @Override
             public void onClick(View view) {
 
-                videoView.start();
-                if (playButton.getText().equals("play")) {
-
+                if (playing) {
+                    videoView.pause();
+                    playButton.setText("Play");
+                    playing = false;
+                } else {
+                    videoView.start();
+                    playButton.setText("Pause");
+                    playing = true;
                 }
             }
         });
 
-        pauseButton.setOnClickListener(new View.OnClickListener() {
+
+        splitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 videoView.pause();
+                playButton.setText("Play");
+                playing = false;
+
+                long segmentFrom = (long)(previewStartPos * 1000000);
+                long segmentTo = (long)(previewEndPos * 1000000);
+
+                Intent intent = new Intent();
+                intent.setClass(VideoEditingTT.this, ComposerCutCoreActivity.class);
+
+                Bundle b = new Bundle();
+                b.putString("srcMediaName1", fileName);
+                intent.putExtras(b);
+                b.putString("dstMediaPath", path/*mediaStorageDir+"/segment.mp4"*/);
+                intent.putExtras(b);
+                b.putLong("segmentFrom", segmentFrom);
+                intent.putExtras(b);
+                b.putLong("segmentTo", segmentTo);
+                intent.putExtras(b);
+                b.putString("srcUri1", fileUri.toString());
+                intent.putExtras(b);
+
+                startActivity(intent);
+
             }
         });
 
@@ -192,9 +232,12 @@ public class VideoEditingTT extends Activity {
                 textViewMin.setText("" + String.format("%.2f", minValue));
                 textViewMax.setText("" + String.format("%.2f", maxValue));
                 textViewMin.setX((float) Scaler(minValue));
-                textViewMax.setX((float)Scaler(maxValue));
+                textViewMax.setX((float) Scaler(maxValue));
                 Log.d("setx location", String.valueOf(Scaler(minValue)));
                 Log.d("min value", String.valueOf(minValue));
+
+                rect.setParameters((float) RectParameters(minValue),((float) RectParameters(maxValue)),0);
+                rect.invalidate();
 
 
                 //handle start stage
@@ -222,10 +265,7 @@ public class VideoEditingTT extends Activity {
                 }
                 Log.d("seekbar1", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
 
-                //Moveborders on thmbnails
 
-                // borders.setParameters((Scaler(currentMinPos)*4.85f),(Scaler(currentMaxPos)*4.85f),0);
-//                borders.invalidate();
 
                 //Set last End Pos so to stop at that time
                 previewEndPos = maxValue;
@@ -249,6 +289,11 @@ public class VideoEditingTT extends Activity {
             viewGroup.addView(TTSeekbar);
         }
 
+    }
+
+    private double RectParameters(double val) {
+
+        return (val/videoDuration) * (seekbarWidth);
     }
 
     private double Scaler(double val_to_scale){
