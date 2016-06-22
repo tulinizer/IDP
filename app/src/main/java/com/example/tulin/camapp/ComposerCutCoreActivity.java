@@ -17,6 +17,7 @@
 package com.example.tulin.camapp;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 import org.m4m.MediaComposer;
@@ -24,12 +25,12 @@ import org.m4m.MediaFile;
 import org.m4m.Uri;
 import org.m4m.domain.Pair;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ComposerCutCoreActivity extends ComposerTranscodeCoreActivity {
 
-    private long segmentFrom = 0;
-    private long segmentTo = 0;
+    private long segmentPart1End, segmentPart2Start, segmentPart2End = 0;
 
     @Override
     protected void getActivityInputs() {
@@ -39,8 +40,9 @@ public class ComposerCutCoreActivity extends ComposerTranscodeCoreActivity {
         dstMediaPath = b.getString("dstMediaPath");
         mediaUri1 = new Uri(b.getString("srcUri1"));
 
-        segmentFrom = b.getLong("segmentFrom");
-        segmentTo = b.getLong("segmentTo");
+        segmentPart1End = b.getLong("segmentPart1End");
+        segmentPart2Start = b.getLong("segmentPart2Start");
+        segmentPart2End = b.getLong("segmentPart2End");
     }
 
     @Override
@@ -54,7 +56,8 @@ public class ComposerCutCoreActivity extends ComposerTranscodeCoreActivity {
         ///////////////////////////
 
         MediaFile mediaFile = mediaComposer.getSourceFiles().get(0);
-        mediaFile.addSegment(new Pair<Long, Long>(segmentFrom, segmentTo));
+        mediaFile.addSegment(new Pair<Long, Long>(0L, segmentPart1End));
+        mediaFile.addSegment(new Pair<Long, Long>(segmentPart2Start, segmentPart2End));
       //  Log.d("segment from  " + String.valueOf((float)segmentFrom/1e6), "Segmetn to " + String.valueOf((float)segmentTo/1e6));
     }
 
@@ -62,8 +65,9 @@ public class ComposerCutCoreActivity extends ComposerTranscodeCoreActivity {
     protected void printDuration() {
 
     	TextView v = (TextView)findViewById(R.id.durationInfo);
-        v.setText(String.format("duration = %.1f sec\n", (float) (segmentTo - segmentFrom) / 1e6));
-        v.append(String.format("from = %.1f sec\nto = %.1f sec\n", (float) segmentFrom / 1e6, (float) segmentTo / 1e6));
+     //   v.setText(String.format("duration = %.1f sec\n", (float) (segmentPart1End) / 1e6));
+        v.append(String.format("from = %.1f sec\nto = %.1f sec\n", (float) 0L / 1e6, (float) segmentPart1End / 1e6));
+        v.append(String.format("from = %.1f sec\nto = %.1f sec\n", (float) segmentPart2Start / 1e6, (float) segmentPart2End / 1e6));
 
     }
 }

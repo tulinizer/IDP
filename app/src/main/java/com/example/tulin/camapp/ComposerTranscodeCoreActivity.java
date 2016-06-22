@@ -22,6 +22,7 @@ import android.media.MediaCodecInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -101,10 +102,10 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
 
     private boolean isStopped = false;
 
-    private File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_PICTURES), "MyCameraApp");
-    private String fileName = "VID.mp4";
-    private String path = mediaStorageDir.getPath() + File.separator + fileName;
+  //  private File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+   //         Environment.DIRECTORY_PICTURES), "MyCameraApp");
+ //   private String fileName = "VID.mp4";
+   // private String path = mediaStorageDir.getPath() + File.separator + fileName;
 
     public org.m4m.IProgressListener progressListener = new org.m4m.IProgressListener() {
         @Override
@@ -461,18 +462,22 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
 
                     @Override
                     public void onClick(View v) {
-                        // reopen video editing activity
-                        Intent intent = new Intent(ComposerTranscodeCoreActivity.this, VideoEditingTT.class);
+                    // reopen video editing activity
 
-                        Bundle b = new Bundle();
+                    //    finish();
+                    Intent intent = new Intent(ComposerTranscodeCoreActivity.this, VideoEditingTT.class);
+
+                      //  Bundle b = new Bundle();
                        /* b.putString("srcMediaName1", fileName);
                         intent.putExtras(b);
-                        */
+
                       //  b.putString("mediaPath", mediaStorageDir+"/segment.mp4");
                         intent.putExtras(b);
+                        Log.d("transcoding done" ,"start videoEditingtt");
+                        */
+                    startActivity(intent);
 
-                        startActivity(intent);
-                        //playResult();
+                      //  playResult();
                     }
                 };
 
@@ -488,6 +493,7 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
 
         String videoUrl = "file:///" + dstMediaPath;
 
+        Log.d("dest:", dstMediaPath.toString());
         Intent intent = new Intent(Intent.ACTION_VIEW);
 
         Uri data = Uri.parse(videoUrl);

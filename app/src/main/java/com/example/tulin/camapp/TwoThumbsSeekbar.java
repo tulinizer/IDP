@@ -52,8 +52,8 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
     private final T absoluteMinValue, absoluteMaxValue;
     private final NumberType numberType;
     private final double absoluteMinValuePrim, absoluteMaxValuePrim;
-    private double normalizedMinValue = 0d;
-    private double normalizedMaxValue = 1d;
+    private double normalizedMinValue = 0.1d;
+    private double normalizedMaxValue = 0.9d;
     private Thumb pressedThumb = null;
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;

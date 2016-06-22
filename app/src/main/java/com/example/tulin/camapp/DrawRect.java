@@ -17,6 +17,7 @@ public class DrawRect extends View {
     private float mSelectionStart;
     public float mSelectionEnd;
     private float mHeight;
+    private boolean mRectTrim = true;
     public int width;
 
     public DrawRect(Context context, AttributeSet attrs) {
@@ -35,10 +36,11 @@ public class DrawRect extends View {
     }
 
 
-    public void setParameters(float start, float end, float offset) {
+    public void setParameters(float start, float end, float offset, boolean rectType) {
         mSelectionStart = start;
         mSelectionEnd = end;
         mOffset = offset;
+        mRectTrim = rectType;
     }
 
 
@@ -47,14 +49,21 @@ public class DrawRect extends View {
         super.onDraw(canvas);
 
         // Draw rect
-        canvas.drawRect(
-                0, 0,
-                mSelectionStart , mHeight,
-                mBorderLinePaint);
-        canvas.drawRect(
-                mSelectionEnd, 0,
-                width, mHeight,
-                mBorderLinePaint);
+        if (mRectTrim) {
+            canvas.drawRect(
+                    0, 0,
+                    mSelectionStart, mHeight,
+                    mBorderLinePaint);
+            canvas.drawRect(
+                    mSelectionEnd, 0,
+                    width, mHeight,
+                    mBorderLinePaint);
+        } else {
+            canvas.drawRect(
+                    mSelectionStart, 0,
+                    mSelectionEnd, mHeight,
+                    mBorderLinePaint);
+        }
 
 
         //Log.w("rect", String.valueOf(width)); //Height is matched as per thmbnail height

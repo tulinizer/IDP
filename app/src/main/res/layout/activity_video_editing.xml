@@ -14,14 +14,15 @@
         <VideoView
             android:layout_width="480dp"
             android:layout_height="326dp"
-            android:id="@+id/video_view" />
+            android:id="@+id/video_view"
+            android:layout_weight="1" />
     </LinearLayout>
 
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play"
+        android:text="Pause"
         android:id="@+id/play_button"
         android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout1"
@@ -36,18 +37,18 @@
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
         android:layout_marginTop="375dp">
+
     </FrameLayout>
 
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pause"
-        android:id="@+id/pause_button"
+        android:text="Cut"
+        android:id="@+id/cut_button"
         android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toStartOf="@+id/trim_button" />
 
 
     <HorizontalScrollView
@@ -71,11 +72,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Split"
-        android:id="@+id/split_button"
+        android:text="Trim"
+        android:id="@+id/trim_button"
         android:layout_below="@+id/linearLayout1"
-        android:layout_toRightOf="@+id/play_button"
-        android:layout_toEndOf="@+id/play_button" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -92,18 +92,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="380dp" />
 
-    <!--SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:thumb="@drawable/seekbar_norm"
-        android:maxHeight="700dp"
-        android:progressDrawable="@android:color/transparent"
-        android:layout_alignBottom="@id/horizontal_scroll"
-        android:layout_alignTop="@id/horizontal_scroll"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" -->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -118,18 +106,18 @@
         android:id="@+id/rect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
-        android:layout_marginTop="400dp" />
+        android:layout_marginTop="400dp"  />
 
-    <!--com.example.tulin.camapp.CustomBordersVideoFrame
-        android:id="@+id/thumbs_borders"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="400dp" -->
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Apply Trim"
+        android:id="@+id/apply"
+        android:layout_alignBottom="@+id/cut_button"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
