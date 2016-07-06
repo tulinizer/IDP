@@ -39,6 +39,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import sun.rmi.runtime.Log;
+
 /**
  * This class implements functionality for simple video editing and transcoding, e.g. joining files, cutting segments from files, applying effects.
  */
@@ -306,6 +308,7 @@ public class MediaComposer implements Serializable {
 
         pipeline.setSink(sink);
 
+        System.out.println("buraya kadar1");
         startCommandsProcessingAsync();
     }
 
@@ -369,15 +372,19 @@ public class MediaComposer implements Serializable {
             public void run() {
                 try {
                     pipeline.resolve();
+                    System.out.println("buraya kadar2");
                     notifyOnMediaStart();
                     notifyOnMediaProgress(0);
                     progressTracker.setFinish(multipleMediaSource.getSegmentsDurationInMicroSec());
                     commandProcessor.process();
                 } catch (Exception e) {
+                    System.out.println("buraya kadar3");
                     try {
                         pipeline.release();
                         notifyOnError(e);
+                        System.out.println("buraya kadar3.5");
                     } catch (IOException e1) {
+                        System.out.println("buraya kadar4");
                         notifyOnError(e);
                         notifyOnError(e1);
                     }

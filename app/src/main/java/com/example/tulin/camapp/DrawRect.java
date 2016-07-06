@@ -27,7 +27,7 @@ public class DrawRect extends View {
         mBorderLinePaint.setAntiAlias(true);
         mBorderLinePaint.setStrokeWidth(4f);
         mBorderLinePaint.setColor(Color.BLACK);
-        mBorderLinePaint.setAlpha(125);
+        mBorderLinePaint.setAlpha(150);
 
     }
 
@@ -66,7 +66,8 @@ public class DrawRect extends View {
         }
 
 
-        //Log.w("rect", String.valueOf(width)); //Height is matched as per thmbnail height
+        Log.w("rect"+String.valueOf(mSelectionStart), String.valueOf(mSelectionEnd)); //Height is matched as per thmbnail height
+        Log.w("rect2"+String.valueOf(mHeight), String.valueOf(mRectTrim)); //Height is matched as per thmbnail height
       //  canvas.drawLine(mSelectionEnd, 0, mSelectionEnd, mHeight, mBorderLinePaint);
     }
 }

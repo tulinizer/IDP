@@ -30,7 +30,7 @@
                 android:layout_width="172dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="Add bookmark"
+                android:text="NEXT"
                 android:id="@+id/bookmark_button" />
 
             <TextView
@@ -58,7 +58,6 @@
     </LinearLayout>
 
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,17 +67,6 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <FrameLayout
-        android:id="@+id/range_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="375dp">
-
-    </FrameLayout>
 
 
     <Button
@@ -90,6 +78,36 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_toStartOf="@+id/trim_button" />
 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trim"
+        android:id="@+id/trim_button"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_alignParentEnd="true" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Apply Trim"
+        android:id="@+id/apply"
+        android:layout_alignBottom="@+id/cut_button"
+        android:layout_centerHorizontal="true" />
+
+
+    <FrameLayout
+        android:id="@+id/range_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="375dp">
+
+    </FrameLayout>
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
@@ -108,14 +126,6 @@
         </LinearLayout>
 
     </HorizontalScrollView>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trim"
-        android:id="@+id/trim_button"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentEnd="true" />
 
     <TextView
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -149,15 +159,5 @@
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
         android:layout_marginTop="400dp"  />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Apply Trim"
-        android:id="@+id/apply"
-        android:layout_alignBottom="@+id/cut_button"
-        android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>

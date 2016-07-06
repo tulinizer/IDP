@@ -76,8 +76,8 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
     protected int videoWidthIn = 640;
     protected int videoHeightIn = 480;
 
-    protected Spinner frameSizeSpinner;
-    protected Spinner videoBitRateSpinner;
+ //   protected Spinner frameSizeSpinner;
+ //   protected Spinner videoBitRateSpinner;
 
     protected final String videoMimeType = "video/avc";
     protected int videoBitRateInKBytes = 5000;
@@ -102,10 +102,10 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
 
     private boolean isStopped = false;
 
-  //  private File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-   //         Environment.DIRECTORY_PICTURES), "MyCameraApp");
- //   private String fileName = "VID.mp4";
-   // private String path = mediaStorageDir.getPath() + File.separator + fileName;
+    private File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES), "MyCameraApp");
+    private String fileName = "VID.mp4";
+    private String path = mediaStorageDir.getPath() + File.separator + fileName;
 
     public org.m4m.IProgressListener progressListener = new org.m4m.IProgressListener() {
         @Override
@@ -116,8 +116,8 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
                     @Override
                     public void run() {
                         progressBar.setProgress(0);
-                        frameSizeSpinner.setEnabled(false);
-                        videoBitRateSpinner.setEnabled(false);
+//                        frameSizeSpinner.setEnabled(false);
+  //                      videoBitRateSpinner.setEnabled(false);
                         updateUI(true);
                     }
                 });
@@ -256,7 +256,12 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
     protected void initVideoSpinners() {
         ArrayAdapter<CharSequence> adapter;
 
+        videoWidthOut = Integer.valueOf(640);
+        videoHeightOut = Integer.valueOf(480);
+
+        videoBitRateInKBytes = Integer.valueOf(5000);
         // Video parameters spinners
+        /*
         frameSizeSpinner = (Spinner) findViewById(R.id.frameSize_spinner);
         adapter = ArrayAdapter.createFromResource(this, R.array.frame_size_values, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -265,8 +270,8 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] frameSizeContainer = frameSizeSpinner.getSelectedItem().toString().split("x", 2);
-                videoWidthOut = Integer.valueOf(frameSizeContainer[0].trim());
-                videoHeightOut = Integer.valueOf(frameSizeContainer[1].trim());
+                videoWidthOut = Integer.valueOf(640);
+                videoHeightOut = Integer.valueOf(480);
             }
 
             @Override
@@ -280,13 +285,14 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
         videoBitRateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                videoBitRateInKBytes = Integer.valueOf(videoBitRateSpinner.getSelectedItem().toString());
+                videoBitRateInKBytes = Integer.valueOf(5000);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+        */
 
     }
     ///////////////////////////////////////////////////////////////////////////
@@ -462,22 +468,21 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
 
                     @Override
                     public void onClick(View v) {
-                    // reopen video editing activity
+                        // reopen video editing activity
 
-                    //    finish();
-                    Intent intent = new Intent(ComposerTranscodeCoreActivity.this, VideoEditingTT.class);
+                        finish();
+                    /*    Intent intent = new Intent(ComposerTranscodeCoreActivity.this, VideoEditingTT.class);
 
-                      //  Bundle b = new Bundle();
+                        Bundle b = new Bundle();
                        /* b.putString("srcMediaName1", fileName);
                         intent.putExtras(b);
 
                       //  b.putString("mediaPath", mediaStorageDir+"/segment.mp4");
                         intent.putExtras(b);
                         Log.d("transcoding done" ,"start videoEditingtt");
+                        startActivity(intent);
                         */
-                    startActivity(intent);
-
-                      //  playResult();
+                        //playResult();
                     }
                 };
 
@@ -493,7 +498,6 @@ public class ComposerTranscodeCoreActivity extends ActivityWithTimeline implemen
 
         String videoUrl = "file:///" + dstMediaPath;
 
-        Log.d("dest:", dstMediaPath.toString());
         Intent intent = new Intent(Intent.ACTION_VIEW);
 
         Uri data = Uri.parse(videoUrl);

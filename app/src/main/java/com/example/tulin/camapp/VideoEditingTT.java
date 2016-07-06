@@ -1,6 +1,7 @@
 package com.example.tulin.camapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.media.MediaMetadataRetriever;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
@@ -25,6 +27,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.app.ProgressDialog;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -34,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+import org.m4m.domain.Pair;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -77,21 +81,27 @@ public class VideoEditingTT extends Activity {
     boolean playing = true;
     DrawRect rect;
     boolean rectTrim = true;
-    boolean bookmarkAdded = false;
+    boolean bookmarkAdded, applyTrim = false;
 
     float textViewPadding;
 
-    ExpandableListAdapter listAdapter;
+ /*   ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     JSONArray jsonArray;
+*/
+    public ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_editing);
+
+    //    progressDialog = (ProgressDialog) this.findViewById(R.id.progressDialog);
+     //   progressDialog.bringToFront();
 
         videoView = (VideoView) findViewById(R.id.video_view);
         final Button playButton = (Button) findViewById(R.id.play_button);
@@ -103,12 +113,14 @@ public class VideoEditingTT extends Activity {
      //   final Button addBookmark = (Button) findViewById(R.id.add_bookmark);
         rect = (DrawRect) findViewById(R.id.rect);
 
+        /*
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
         // preparing list data
 
         //prepareListData();
+
 
 
         listDataHeader = new ArrayList<String>();
@@ -124,6 +136,7 @@ public class VideoEditingTT extends Activity {
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
+*/
 
         trimButton.setPressed(true);
        // trimButton.setBackgroundColor(Color.DKGRAY);
@@ -198,15 +211,15 @@ public class VideoEditingTT extends Activity {
         layout = (LinearLayout) findViewById(R.id.linear_images);
         frameList = new ArrayList<Bitmap>();
 
-        Log.d("frame width: ", String.valueOf(frameWidth));
+    //    Log.d("frame width: ", String.valueOf(frameWidth));
 
         durationDouble = Double.parseDouble(time) * 1000;
 
         double frameTime = 0.;
         double frameFreq = durationDouble/TOTALFRAME;
 
-         Log.d("frame freq", String.valueOf(frameFreq));
-         Log.d("path", String.valueOf(path));
+    //     Log.d("frame freq", String.valueOf(frameFreq));
+     //    Log.d("path", String.valueOf(path));
 
 
         for (int i = 0; i < TOTALFRAME; i++) {
@@ -255,7 +268,7 @@ public class VideoEditingTT extends Activity {
             @Override
             public void onClick(View view) {
 
-               // Intent intent = new Intent();
+                // Intent intent = new Intent();
                 //intent.setClass(VideoEditingTT.this, VideoPlayerActivity.class);
                 //startActivity(intent);
 
@@ -266,9 +279,9 @@ public class VideoEditingTT extends Activity {
                 trimButton.getBackground().setColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
                 cutButton.setPressed(false);
                 //cutButton.setBackgroundColor(Color.LTGRAY);
-                cutButton.getBackground().setColorFilter(Color.LTGRAY,PorterDuff.Mode.MULTIPLY);
+                cutButton.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
                 rectTrim = true;
-                rect.setParameters((float) RectParameters(previewStartPos),((float) RectParameters(previewEndPos)),0, rectTrim);
+                rect.setParameters((float) RectParameters(previewStartPos), ((float) RectParameters(previewEndPos)), 0, rectTrim);
                 rect.invalidate();
 
             }
@@ -291,26 +304,6 @@ public class VideoEditingTT extends Activity {
                 rect.setParameters((float) RectParameters(previewStartPos),((float) RectParameters(previewEndPos)),0, rectTrim);
                 rect.invalidate();
 
-                /*
-                Intent intent = new Intent();
-                intent.setClass(VideoEditingTT.this, ComposerCutCoreActivity.class);
-
-                Bundle b = new Bundle();
-                b.putString("srcMediaName1", fileName);
-                intent.putExtras(b);
-                b.putString("dstMediaPath", path);
-                intent.putExtras(b);
-                b.putLong("segmentPart1End", (long)(previewStartPos * 1000000));
-                intent.putExtras(b);
-                b.putLong("segmentPart2Start", (long)(previewEndPos * 1000000));
-                intent.putExtras(b);
-                b.putLong("segmentPart2End", durationLong);
-                intent.putExtras(b);
-                b.putString("srcUri1", fileUri.toString());
-                intent.putExtras(b);
-
-                startActivity(intent);
-    */
             }
         });
 
@@ -318,131 +311,91 @@ public class VideoEditingTT extends Activity {
 
             @Override
             public void onClick(View v) {
-                if (apply.getText().equals("Apply Trim")) {
 
-                    long segmentFrom = (long)(previewStartPos * 1000000);
-                    long segmentTo = (long)(previewEndPos * 1000000);
+                videoView.pause();
 
-                    Intent intent = new Intent();
-                    intent.setClass(VideoEditingTT.this, ComposerTrimCoreActivity.class);
+                if (apply.getText().equals("Apply Trim"))
+                    applyTrim = true;
+                else
+                    applyTrim = false;
 
-                    Bundle b = new Bundle();
-                    b.putString("srcMediaName1", fileName);
-                    intent.putExtras(b);
-                    b.putString("dstMediaPath", path);
-                    intent.putExtras(b);
-                    b.putLong("segmentFrom", segmentFrom);
-                    intent.putExtras(b);
-                    b.putLong("segmentTo", segmentTo);
-                    intent.putExtras(b);
-                    b.putString("srcUri1", fileUri.toString());
-                    intent.putExtras(b);
+                new ProgressTask().execute();
 
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent();
-                    intent.setClass(VideoEditingTT.this, ComposerCutCoreActivity.class);
-
-                    Bundle b = new Bundle();
-                    b.putString("srcMediaName1", fileName);
-                    intent.putExtras(b);
-                    b.putString("dstMediaPath", path);
-                    intent.putExtras(b);
-                    b.putLong("segmentPart1End", (long)(previewStartPos * 1000000));
-                    intent.putExtras(b);
-                    b.putLong("segmentPart2Start", (long)(previewEndPos * 1000000));
-                    intent.putExtras(b);
-                    b.putLong("segmentPart2End", durationLong);
-                    intent.putExtras(b);
-                    b.putString("srcUri1", fileUri.toString());
-                    intent.putExtras(b);
-
-                    startActivity(intent);
-                }
             }
         });
-
-
-       jsonArray = new JSONArray();
 
         bookmarkButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                videoView.pause();
-                playButton.setText("Play");
-
-                if (bookmarkAdded == false) {
-                    edittext.setVisibility(View.VISIBLE);
-                    textViewTs.setText(String.format("time: %.2f", previewStartPos));
-                  //  textViewTs.setVisibility(View.VISIBLE);
-                    bookmarkButton.setText("ADD");
-                    bookmarkAdded = true;
-                } else {
-                    edittext.setVisibility(View.INVISIBLE);
-                    bookmarkButton.setText("ADD BOOKMARK");
-                    bookmarkAdded = false;
-
-                    String[] text = edittext.getText().toString().split(":");
-                //    textViewTs.setVisibility(View.INVISIBLE);
-
-                    JSONObject bm = new JSONObject();
-                    try {
-                        bm.put("timestamp", previewStartPos);
-                        bm.put("tag", text[0]);
-                        if (text.length < 2)
-                            bm.put("description", "");
-                        else
-                            bm.put("description", text[1]);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    jsonArray.put(bm);
-
-                    edittext.setText("");
-
-                    try {
-                        listDataHeader.add(bm.getString("tag"));
-                        List<String> l = new ArrayList<String>();
-                        l.add(bm.getString("description"));
-
-                        listDataChild.put(bm.getString("tag"), l);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                   /* try {
-                        MetaDataInsert mDI = new MetaDataInsert();
-                        MetaDataRead metaDataRead = new MetaDataRead();
-
-                        mDI.writeRandomMetadata(path, "ILK STRING");
-                        String xml = metaDataRead.read(path);
-                        Log.d("***********OKUNAN:", xml);
-
-                        mDI.writeRandomMetadata(path, xml+"YENI STRING!!");
-                        xml = metaDataRead.read(path);
-                        Log.d("***********OKUNAN2:", xml);
-
-                    } catch (IOException e) {
-                        Log.d("!!!!!!!!", "Exception write");
-                        e.printStackTrace();
-                    }
-                    */
-                }
-
+                Intent intent = new Intent();
+                intent.setClass(VideoEditingTT.this, AddBookmarkActivity.class);
+                startActivity(intent);
             }
         });
 
+    }
 
+    private class ProgressTask extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected void onPreExecute(){
+
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(VideoEditingTT.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMessage("Loading");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setMax(100);
+       //     progressDialog.setProgress(0);
+            progressDialog.show();
+            //progressDialog.setVisibility(View.VISIBLE);
+            Log.d("bar ", "visible");
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            long segmentFrom = (long)(previewStartPos * 1000000);
+            long segmentTo = (long)(previewEndPos * 1000000);
+
+            if (applyTrim) {
+
+                ComposerTranscodeCore cT = new ComposerTranscodeCore(VideoEditingTT.this, progressDialog);
+                cT.getActivityInputs(fileName, path, fileUri.toString(), segmentFrom, segmentTo);
+                cT.addSegment(segmentFrom, segmentTo);
+
+
+            } else {
+
+                ComposerTranscodeCore cT = new ComposerTranscodeCore(VideoEditingTT.this, progressDialog);
+                cT.getActivityInputs(fileName, path, fileUri.toString(), segmentFrom, segmentTo);
+                cT.addSegment(0L, segmentFrom);
+                cT.addSegment(segmentTo, durationLong);
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+           /* try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            */
+        //    progressDialog.setVisibility(View.GONE);
+        }
     }
 
     /*
      * Preparing the list data
      */
-    private void prepareListData() throws JSONException {
+   /* private void prepareListData() throws JSONException {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
@@ -450,7 +403,7 @@ public class VideoEditingTT extends Activity {
             Log.d(String.valueOf(jsonArray.getJSONObject(i).getInt("timestamp")), jsonArray.getJSONObject(i).getString("tag"));
         }
     }
-
+*/
     private void initSeekbar() {
 
         //Handle range seekbar
@@ -471,11 +424,13 @@ public class VideoEditingTT extends Activity {
                 textViewMin.setX((float) Scaler(minValue));
 
                 textViewMax.setX((float) Scaler(maxValue));
+
            //     Log.d("setx location", String.valueOf(Scaler(minValue)));
             //    Log.d("min value", String.valueOf(minValue));
 
                 rect.setParameters((float) RectParameters(minValue),((float) RectParameters(maxValue)),0, rectTrim);
                 rect.invalidate();
+
 
 
                 //handle start stage

@@ -37,27 +37,33 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // Create an instance of Camera
-        mCamera = getCameraInstance();
+    //    mCamera = getCameraInstance();
 
-        if (mCamera == null) {
-            mCamera = Camera.open();
-        }
+      //  if (mCamera == null) {
+       //     mCamera = Camera.open();
+      //  }
 
+        /*
         // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+        mPreview = new CameraPreview(this, mCamera);
+         */
 
+        Intent intent = new Intent(MainActivity.this, CameraCapturerActivity.class);
+        startActivity(intent);
         // Add a listener to the Capture button
-        captureButton = (Button) findViewById(R.id.button_capture);
+     /*   captureButton = (Button) findViewById(R.id.button_capture);
 
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                 //       Intent intent = new Intent(MainActivity.this, CameraCapturerActivity.class);
-                   //     startActivity(intent);
+                        Intent intent = new Intent(MainActivity.this, CameraCapturerActivity.class);
+                        startActivity(intent);
+
+                   /*
                       if (isRecording) {
                             // stop recording and release camera
                             mMediaRecorder.stop();  // stop the recording
@@ -92,9 +98,11 @@ public class MainActivity extends Activity {
                     }
 
 
+                    }
                 }
 
         );
+                */
     }
 
     @Override

@@ -4,6 +4,9 @@ android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
+    dexOptions {
+        dexInProcess = false
+    }
     defaultConfig {
         applicationId "com.example.tulin.camapp"
         minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
@@ -24,7 +27,7 @@ dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:23.2.0'
-    compile files('libs/aspectjrt-1.7.3.jar')
+   // compile files('libs/aspectjrt-1.7.3.jar')
 
     compile group: 'commons-io', name: 'commons-io', version: '2.0.1'
     // https://mvnrepository.com/artifact/org.mp4parser/isoparser
@@ -34,5 +37,6 @@ dependencies {
     compile project(':domain')
     compile project(':android')
     compile project(':effects')
+
    // compile project(':samples')
 }

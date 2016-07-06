@@ -133,13 +133,11 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
     };
     private AndroidMediaObjectFactory factory;
     private boolean recordAudio = true;
-    private Handler handler;
 
     private boolean autoFocusSupported = false;
     private boolean autoFlashSupported = false;
     private ImageButton videoFilePreview;
     private ImageButton captureButton;
-    private TextView fpsText;
     private GLSurfaceView surfaceView;
     private CheckBox muteCheckBox;
 
@@ -188,7 +186,7 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
                     lst.remove(0);
                 }
             }
-            handler.sendMessage(handler.obtainMessage());
+//            handler.sendMessage(handler.obtainMessage());
 
             videoEffects.get(activeEffectId).applyEffect(inTextureId, timeProgress, transformMatrix);
         }
@@ -270,7 +268,6 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
         });
 
         captureButton = (ImageButton) findViewById(R.id.streaming);
-        fpsText = (TextView) findViewById(R.id.fpsText);
 
         // Setup focus on click
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.camera_layout);
@@ -365,13 +362,6 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
         settingsPopup = new CameraCaptureSettingsPopup(this, supportedResolutions, this);
 
         updateVideoFilePreview();
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                fpsText.setText(String.valueOf(String.format("%.0f", allEffects.getFps())));
-            }
-        };
 
         muteCheckBox = (CheckBox) findViewById(R.id.muteCheckBox);
         muteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -410,10 +400,6 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
     private void checkWorkingEffects() {
         int removeIndex = 4;
 
-        ImageButton effectText = (ImageButton) findViewById(R.id.effect_text);
-        if (effectText != null) {
-            ((ViewManager) findViewById(R.id.effect_text).getParent()).removeView(findViewById(R.id.effect_text));
-        }
 
         if (allEffects.getVideoEffects().size() >= (removeIndex + 1)) {
             allEffects.getVideoEffects().remove(removeIndex); // remove TextOverLay
@@ -665,7 +651,10 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
     }
 
     public String getVideoFilePath() {
-        return getAndroidMoviesFolder().getAbsolutePath() + "/capture.mp4";
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        return mediaStorageDir.getPath() + File.separator+ "VID" + ".mp4";
+        // return getAndroidMoviesFolder().getAbsolutePath() + "/capture.mp4";
     }
 
     public void onClickEffect(View view) {
@@ -702,11 +691,14 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
         String videoUrl = "file:///" + videoFilePath;
 
         if (new File(videoFilePath).exists()) {
+            Intent intent = new Intent(CameraCapturerActivity.this, VideoEditingTT.class);
+            startActivity(intent);
+            /*
             Intent intent = new Intent(Intent.ACTION_VIEW);
-
             android.net.Uri data = android.net.Uri.parse(videoUrl);
             intent.setDataAndType(data, "video/mp4");
             startActivity(intent);
+            */
         } else {
             ImageButton preview = (ImageButton) findViewById(R.id.preview);
             preview.setVisibility(View.INVISIBLE);
@@ -745,19 +737,19 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settings);
         ImageButton previewButton = (ImageButton) findViewById(R.id.preview);
         ImageButton changeCameraButton = (ImageButton) findViewById(R.id.change_camera);
-        ScrollView container = (ScrollView) findViewById(R.id.effectsContainer);
+  //      ScrollView container = (ScrollView) findViewById(R.id.effectsContainer);
 
         if (isRecordingInProgress) {
             captureButton.setImageResource(R.drawable.rec_inact);
 
-            container.setVisibility(View.VISIBLE);
+      //      container.setVisibility(View.VISIBLE);
             settingsButton.setVisibility(View.VISIBLE);
             previewButton.setVisibility(View.VISIBLE);
             changeCameraButton.setVisibility(View.VISIBLE);
         } else {
             captureButton.setImageResource(R.drawable.rec_act);
 
-            container.setVisibility(View.INVISIBLE);
+        //    container.setVisibility(View.INVISIBLE);
             settingsButton.setVisibility(View.INVISIBLE);
             previewButton.setVisibility(View.INVISIBLE);
             changeCameraButton.setVisibility(View.INVISIBLE);

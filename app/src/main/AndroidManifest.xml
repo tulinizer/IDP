@@ -65,6 +65,18 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Capture Video">
         </activity>
+        <activity
+            android:name=".AddBookmarkActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:label="Add Bookmark">
+        </activity>
+        <activity
+            android:name=".PlaybackActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:label="Playback">
+        </activity>
     </application>
 
 </manifest>
