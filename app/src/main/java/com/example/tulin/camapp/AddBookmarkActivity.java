@@ -327,6 +327,7 @@ public class AddBookmarkActivity extends Activity {
     }
 
 
+
     private void initSeekbar() {
         //Handle range seekbar
         TTSeekbar.setNotifyWhileDragging(true);

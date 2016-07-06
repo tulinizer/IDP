@@ -122,8 +122,6 @@ public class ComposerTranscodeCore implements SurfaceHolder.Callback {
         public void onMediaStart() {
             Log.d("media" , "started");
 
-
-        //    progressDialog.setProgress(0);
         }
 
         @Override
@@ -139,23 +137,6 @@ public class ComposerTranscodeCore implements SurfaceHolder.Callback {
          //   playResult();
         }
 
-        /*  @Override
-                public void onMediaDone() {
-                    try {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (isStopped) {
-                                    return;
-                                }
-                                updateUI(false);
-                                reportTranscodeDone();
-                            }
-                        });
-                    } catch (Exception e) {
-                    }
-                }
-        */
         @Override
         public void onMediaPause() {
         }
@@ -180,19 +161,6 @@ public class ComposerTranscodeCore implements SurfaceHolder.Callback {
         this.progressDialog = progressDialog;
 
         initVideoSpinners();
-
-//        progressDialog = (ProgressBar) findViewById(R.id.progressDialog);
-  //      progressDialog.setMax(100);
-
-        ////
-   //     TranscodeSurfaceView transcodeSurfaceView = (TranscodeSurfaceView) findViewById(R.id.transcodeSurfaceView);
-     //   transcodeSurfaceView.getHolder().addCallback(this);
-        ////
-
-
-     //   getActivityInputs();
-  //      mediaFile = mediaComposer.getSourceFiles().get(0);
-
     }
 
     protected void onFinish() {
@@ -382,14 +350,14 @@ public class ComposerTranscodeCore implements SurfaceHolder.Callback {
         String videoUrl = "file:///" + dstMediaPath1;
 
         Log.d("dest:", dstMediaPath1.toString());
+
+
         //Intent intent = new Intent(Intent.ACTION_VIEW);
 
-        Intent intent = new Intent (context, VideoEditingTT.class);
+       Intent intent = new Intent (context, VideoEditingTT.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-     //   Uri data = Uri.parse(videoUrl);
-       // intent.setDataAndType(data, "video/mp4");
-    //    startActivity(intent);
+
     }
 
     private void updateUI(boolean inProgress) {

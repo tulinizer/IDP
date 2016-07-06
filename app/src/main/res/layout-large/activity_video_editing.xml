@@ -5,36 +5,28 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="326dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/trim_button">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <EditText
-                android:id="@+id/edittext"
-                android:layout_width="match_parent"
-                android:layout_height="126dp"
-                android:visibility="invisible"
-                android:layout_marginTop="0dp"
-                android:hint="Enter tag : description"/>
+            android:orientation="vertical"
+            android:layout_weight="0.2">
 
             <Button
-                android:layout_width="172dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:text="NEXT"
                 android:id="@+id/bookmark_button" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text=""
@@ -49,11 +41,13 @@
             android:id="@+id/video_view"
             android:layout_weight="0.6" />
 
-        <ExpandableListView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/expandableListView"
-            android:layout_weight="0.2"/>
+            android:orientation="vertical"
+            android:layout_weight="0.2">
+
+        </LinearLayout>
 
     </LinearLayout>
 

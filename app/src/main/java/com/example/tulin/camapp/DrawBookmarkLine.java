@@ -13,7 +13,7 @@ import android.widget.ImageView;
  * Created by tulin on 27.06.16.
  */
 public class DrawBookmarkLine extends ImageView {
-    private float x1, y1, x2, y2;
+    private float x1, y2;
     private Paint mBorderLinePaint, mPaint;
     Bitmap mDrawBitmap;
     Canvas mBitmapCanvas;
@@ -35,11 +35,8 @@ public class DrawBookmarkLine extends ImageView {
 
         public void setParameters(float start1, float end1, float start2, float end2, String tag) {
             x1 = start1;
-            y1 = end1;
-            x2 = start2;
             y2 = end2;
 
-            Log.d("mTag..."+String.valueOf(this.getWidth()), tag);
             mTag = mTag.replaceAll(".", "");
             mTag = mTag.concat(tag);
       //      mTime = time;

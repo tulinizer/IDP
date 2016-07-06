@@ -18,15 +18,31 @@
             android:orientation="vertical"
             android:layout_weight="0.2">
 
+            <EditText
+                android:id="@+id/edittextTag"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:visibility="invisible"
+                android:layout_marginTop="0dp"
+                android:hint="Enter tag"/>
+
+            <EditText
+                android:id="@+id/edittextDesc"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:visibility="invisible"
+                android:layout_marginTop="0dp"
+                android:hint="Enter description"/>
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="NEXT"
+                android:text="Add bookmark"
                 android:id="@+id/bookmark_button" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text=""
@@ -39,17 +55,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/video_view"
-            android:layout_weight="0.8" />
+            android:layout_weight="0.6" />
 
-        <LinearLayout
+        <ExpandableListView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="0.2">
-
-        </LinearLayout>
+            android:id="@+id/expandableListView"
+            android:layout_weight="0.2"/>
 
     </LinearLayout>
+
 
 
     <Button
@@ -62,35 +77,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cut"
-        android:id="@+id/cut_button"
+        android:text="Next"
+        android:id="@+id/next_button"
         android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout1"
-        android:layout_toStartOf="@+id/trim_button" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trim"
-        android:id="@+id/trim_button"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentEnd="true" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Apply Trim"
-        android:id="@+id/apply"
-        android:layout_alignBottom="@+id/cut_button"
-        android:layout_centerHorizontal="true" />
-
+        android:layout_alignEnd="@+id/range_seekbar" />
 
     <FrameLayout
         android:id="@+id/range_seekbar"
@@ -119,6 +113,7 @@
             android:orientation="horizontal" >
         </LinearLayout>
 
+
     </HorizontalScrollView>
 
     <TextView
@@ -129,36 +124,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="170dp"/>
 
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/timestampMax"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="170dp" />
-
-    <RelativeLayout
+    <com.example.tulin.camapp.DrawBookmarkLine
+        android:id="@+id/bookmark_line"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/iconView"
-        android:layout_alignLeft="@+id/horizontal_scroll"
-        android:layout_alignBottom="@+id/horizontal_scroll"
-        android:layout_alignTop="@+id/horizontal_scroll"
-        android:layout_alignRight="@+id/horizontal_scroll"
-        android:layout_alignEnd="@+id/horizontal_scroll"/>
-
-    <com.example.tulin.camapp.DrawRect
-        android:id="@+id/rect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
-        android:layout_marginTop="190dp"  />
+        android:layout_marginTop="175dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_below="@+id/apply"
-        android:layout_alignEnd="@+id/apply" />
 
 </RelativeLayout>

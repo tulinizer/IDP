@@ -33,18 +33,8 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import android.view.ViewGroup.LayoutParams;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-import org.m4m.domain.Pair;
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 
 public class VideoEditingTT extends Activity {
@@ -57,8 +47,6 @@ public class VideoEditingTT extends Activity {
             Environment.DIRECTORY_PICTURES), "MyCameraApp");
     private String fileName = "VID.mp4";
     private String path = mediaStorageDir.getPath() + File.separator + fileName;
-    //private String path = mediaStorageDir.getPath() + File.separator  + "The Simpsons Movie - Trailer.mp4";
-   //   private String path =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath() +"/capture.mp4";
     private Uri fileUri = Uri.parse(path.toString());
 
     boolean initialState = true;
@@ -67,9 +55,6 @@ public class VideoEditingTT extends Activity {
     double currentMinPos, currentMaxPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    CustomBordersVideoFrame borders;
-    // private String path = Environment.getExternalStorageDirectory() + "/big_buck_bunn_short.mp4";
-    Handler mHandler=new Handler();
     int padding = 22, frameWidth = 10, frameHeight = 10, seekbarWidth;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
@@ -85,12 +70,6 @@ public class VideoEditingTT extends Activity {
 
     float textViewPadding;
 
- /*   ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
-    JSONArray jsonArray;
-*/
     public ProgressDialog progressDialog;
 
 
@@ -100,49 +79,17 @@ public class VideoEditingTT extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_editing);
 
-    //    progressDialog = (ProgressDialog) this.findViewById(R.id.progressDialog);
-     //   progressDialog.bringToFront();
-
         videoView = (VideoView) findViewById(R.id.video_view);
         final Button playButton = (Button) findViewById(R.id.play_button);
         final Button cutButton = (Button) findViewById(R.id.cut_button);
         final Button trimButton = (Button) findViewById(R.id.trim_button);
         final Button bookmarkButton = (Button) findViewById(R.id.bookmark_button);
         textViewTs = (TextView) findViewById(R.id.textView_ts);
-        final EditText edittext = (EditText) findViewById(R.id.edittext);
-     //   final Button addBookmark = (Button) findViewById(R.id.add_bookmark);
         rect = (DrawRect) findViewById(R.id.rect);
 
-        /*
-        // get the listview
-        expListView = (ExpandableListView) findViewById(R.id.expandableListView);
-
-        // preparing list data
-
-        //prepareListData();
-
-
-
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-
-        listDataHeader.add("Bookmarks");
-        List<String> l = new ArrayList<String>();
-        l.add("");
-
-        listDataChild.put("Bookmarks", l);
-
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
-*/
-
         trimButton.setPressed(true);
-       // trimButton.setBackgroundColor(Color.DKGRAY);
         trimButton.getBackground().setColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
         playButton.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-      //  playButton.setBackgroundColor(Color.LTGRAY);
 
         apply = (Button) findViewById(R.id.apply);
         textViewMin = (TextView) findViewById(R.id.timestampMin);
@@ -168,9 +115,6 @@ public class VideoEditingTT extends Activity {
         float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, r.getDisplayMetrics());
 
         seekbarWidth = screenWidthPx - (int)(2 * padd);
-
-        Log.d(String.valueOf(seekbarWidth), "seekbar width px");
-        Log.d(String.valueOf(textViewPadding), "padding in px");
 
         //specify the location of media file
         final Uri uri = Uri.parse(path);
@@ -198,7 +142,6 @@ public class VideoEditingTT extends Activity {
         previewStartPos = videoDuration * 0.1;
         previewEndPos = videoDuration * 0.9;
         Log.d(String.valueOf(previewStartPos), String.valueOf(previewEndPos));
-        Log.d(String.valueOf(videoDuration), "dur");
         CalculateFrameSize(seekbarWidth);
         rect.setHeight(frameHeight);
         rect.width = seekbarWidth;
@@ -209,31 +152,22 @@ public class VideoEditingTT extends Activity {
 
 
         layout = (LinearLayout) findViewById(R.id.linear_images);
-        frameList = new ArrayList<Bitmap>();
-
-    //    Log.d("frame width: ", String.valueOf(frameWidth));
+    //    frameList = new ArrayList<Bitmap>();
 
         durationDouble = Double.parseDouble(time) * 1000;
 
         double frameTime = 0.;
         double frameFreq = durationDouble/TOTALFRAME;
 
-    //     Log.d("frame freq", String.valueOf(frameFreq));
-     //    Log.d("path", String.valueOf(path));
-
-
         for (int i = 0; i < TOTALFRAME; i++) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setId(i);
 
-
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long)frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
             Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
-            
 
             frameTime += frameFreq;
-      //      Log.d("frame Time", String.valueOf(frameTime));
-            //        frameList.add(bm);
+
             imageView.setLayoutParams(new LayoutParams(frameWidth, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -244,7 +178,6 @@ public class VideoEditingTT extends Activity {
         }
 
         videoView.start();
-        //   videoView.pause();
 
         playButton.setOnClickListener(new View.OnClickListener() {
 
@@ -268,17 +201,11 @@ public class VideoEditingTT extends Activity {
             @Override
             public void onClick(View view) {
 
-                // Intent intent = new Intent();
-                //intent.setClass(VideoEditingTT.this, VideoPlayerActivity.class);
-                //startActivity(intent);
-
                 videoView.pause();
                 apply.setText("Apply Trim");
                 view.setPressed(true);
-                //view.setBackgroundColor(Color.DKGRAY);
                 trimButton.getBackground().setColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
                 cutButton.setPressed(false);
-                //cutButton.setBackgroundColor(Color.LTGRAY);
                 cutButton.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
                 rectTrim = true;
                 rect.setParameters((float) RectParameters(previewStartPos), ((float) RectParameters(previewEndPos)), 0, rectTrim);
@@ -294,11 +221,9 @@ public class VideoEditingTT extends Activity {
                 videoView.pause();
                 apply.setText("Apply Cut");
                 view.setPressed(true);
-              //  view.setBackgroundColor(Color.DKGRAY);
                 cutButton.getBackground().setColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
 
                 trimButton.setPressed(false);
-                //    trimButton.setBackgroundColor(Color.LTGRAY);
                 trimButton.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
                 rectTrim = false;
                 rect.setParameters((float) RectParameters(previewStartPos),((float) RectParameters(previewEndPos)),0, rectTrim);
@@ -330,11 +255,18 @@ public class VideoEditingTT extends Activity {
             public void onClick(View v) {
 
                 Intent intent = new Intent();
+
                 intent.setClass(VideoEditingTT.this, AddBookmarkActivity.class);
                 startActivity(intent);
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(VideoEditingTT.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private class ProgressTask extends AsyncTask<Void,Void,Void> {
@@ -349,10 +281,7 @@ public class VideoEditingTT extends Activity {
             progressDialog.setIndeterminate(false);
             progressDialog.setCancelable(false);
             progressDialog.setMax(100);
-       //     progressDialog.setProgress(0);
             progressDialog.show();
-            //progressDialog.setVisibility(View.VISIBLE);
-            Log.d("bar ", "visible");
         }
 
         @Override
@@ -362,19 +291,15 @@ public class VideoEditingTT extends Activity {
             long segmentTo = (long)(previewEndPos * 1000000);
 
             if (applyTrim) {
-
                 ComposerTranscodeCore cT = new ComposerTranscodeCore(VideoEditingTT.this, progressDialog);
                 cT.getActivityInputs(fileName, path, fileUri.toString(), segmentFrom, segmentTo);
                 cT.addSegment(segmentFrom, segmentTo);
 
-
             } else {
-
                 ComposerTranscodeCore cT = new ComposerTranscodeCore(VideoEditingTT.this, progressDialog);
                 cT.getActivityInputs(fileName, path, fileUri.toString(), segmentFrom, segmentTo);
                 cT.addSegment(0L, segmentFrom);
                 cT.addSegment(segmentTo, durationLong);
-
             }
 
             return null;
@@ -382,28 +307,11 @@ public class VideoEditingTT extends Activity {
 
         @Override
         protected void onPostExecute(Void result) {
-           /* try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            */
-        //    progressDialog.setVisibility(View.GONE);
+            Log.d("exec", "done..");
         }
     }
 
-    /*
-     * Preparing the list data
-     */
-   /* private void prepareListData() throws JSONException {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            Log.d(String.valueOf(jsonArray.getJSONObject(i).getInt("timestamp")), jsonArray.getJSONObject(i).getString("tag"));
-        }
-    }
-*/
     private void initSeekbar() {
 
         //Handle range seekbar
@@ -425,13 +333,8 @@ public class VideoEditingTT extends Activity {
 
                 textViewMax.setX((float) Scaler(maxValue));
 
-           //     Log.d("setx location", String.valueOf(Scaler(minValue)));
-            //    Log.d("min value", String.valueOf(minValue));
-
                 rect.setParameters((float) RectParameters(minValue),((float) RectParameters(maxValue)),0, rectTrim);
                 rect.invalidate();
-
-
 
                 //handle start stage
                 if (initialState && minValue != 0) {
@@ -504,20 +407,11 @@ public class VideoEditingTT extends Activity {
 
        return ((padding - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
 
-/*        float min = 0, max = videoDuration, a = 0, b = 200, x = val_to_scale;
-
-        float scaled_val = (((b-a)*(x-min)) / (max-min))+a;
-        Log.d("Scaler", String.valueOf(scaled_val));
-        return scaled_val;
-  */
     }
 
     private void CalculateFrameSize(int width) {
          Double d  = Math.ceil((double)width / (double)TOTALFRAME);
-      //   sampleFreq = videoDuration/10;
-       //  sampleFreq /= 2;
 
-       // frameWidth = width / TOTALFRAME;
         frameWidth = d.intValue();
 
         frameHeight = frameWidth;
