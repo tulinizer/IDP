@@ -32,18 +32,8 @@
         </activity>
         <activity
             android:name=".VideoEditingTT"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
-            android:name=".ComposerCutCoreActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Cut Video Core">
-        </activity>
-        <activity
-            android:name=".ComposerTrimCoreActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Trim Video Core">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".ComposerTranscodeCoreActivity"
@@ -77,6 +67,7 @@
             android:screenOrientation="landscape"
             android:label="Playback">
         </activity>
+        <activity android:name=".SelectVideo" />
     </application>
 
 </manifest>

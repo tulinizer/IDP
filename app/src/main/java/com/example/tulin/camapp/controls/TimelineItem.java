@@ -177,7 +177,7 @@ public class TimelineItem extends RelativeLayout implements View.OnClickListener
 
         showPreview(10);
     }
-    
+
     public String genDstPath(String srcName, String effect)
     {
         String substring = srcName.substring(0, srcName.lastIndexOf('.'));
@@ -188,25 +188,25 @@ public class TimelineItem extends RelativeLayout implements View.OnClickListener
         }
 
         String dstPath = ( outputFolder.getPath() + "/" + substring + "_" + effect + ".mp4");
-                
+
         return dstPath;
     }
 
     public String genDstPath(String srcPath1, String srcPath2, String effect)
     {
         String extension = srcPath1.substring(srcPath1.lastIndexOf('.') + 1);
-                
+
         String srcFileName2 = srcPath2.substring(srcPath1.lastIndexOf('/') + 1);
         String srcFileName2Base = srcFileName2.substring(0, srcFileName2.lastIndexOf('.'));
-        
+
         String dstPath = srcPath1.replace( "." + extension, "_" + srcFileName2Base + "_" + effect + ".mp4");
-        
+
         return dstPath;
-    }      
+    }
 
     public String getVideoEffectName(int index) {
-    	
-    	String baseName = "video_effect_";
+
+        String baseName = "video_effect_";
 
         switch (index){
             case 0:  return baseName + "sepia";
@@ -214,9 +214,9 @@ public class TimelineItem extends RelativeLayout implements View.OnClickListener
             case 2:  return baseName + "inverse";
             case 3:  return baseName + "text_overlay";
             default: return baseName + "unknown";
-        }    	
+        }
     }
-    
+
     private void init(AttributeSet attrs, int defStyle) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

@@ -24,6 +24,8 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.example.tulin.camapp.controls.TimelineItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,6 +80,8 @@ public class PlaybackActivity extends Activity {
 
     HashMap<String, Float> lines;
 
+    TimelineItem item = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -88,6 +92,7 @@ public class PlaybackActivity extends Activity {
         final Button playButton = (Button) findViewById(R.id.play_button);
         final Button bookmarkButton = (Button) findViewById(R.id.bookmark_button);
         bookmarkLine = (DrawBookmarkLinePlayback) findViewById(R.id.bookmark_line);
+
 
         lines = new HashMap<>();
         //   bookmarkLine.setParameters((float) 200, 0, (float)200, 100);
@@ -110,7 +115,7 @@ public class PlaybackActivity extends Activity {
         textViewMin = (TextView) findViewById(R.id.timestampMin);
         textViewMin.bringToFront();
 
-        Bitmap Left_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seekbar_norm);
+        final Bitmap Left_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seekbar_norm);
         textViewPadding = 0.5f *  Left_thumbImage_nrml.getWidth();
 
         final MediaController mediaController = new MediaController(this);
@@ -225,6 +230,10 @@ public class PlaybackActivity extends Activity {
                     double tS = jObj.getDouble("timestamp");
                     Log.d(String.valueOf(i), String.valueOf(tS));
                     videoView.seekTo((int)((tS*1000)));
+                 //   TTSeekbar.drawLThumb(tS*1000, Left_thumbImage_nrml, );
+                    currentMinPos = tS;
+                    TTSeekbar.setSelectedMinValue(tS);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -249,12 +258,6 @@ public class PlaybackActivity extends Activity {
                 textViewMin.invalidate();
                 textViewMin.setText("" + String.format("%.2f", minValue));
                 textViewMin.setX((float) Scaler(minValue));
-
-
-                //  bookmarkLine.setParameters((float) LineParameters(minValue)-50, 0, (float)LineParameters(minValue)-50, frameHeight);
-                //  bookmarkLine.invalidate();
-
-                //handle start stage
 
                 currentMinPos = minValue;
                 videoView.seekTo((int)(currentMinPos * 1000));

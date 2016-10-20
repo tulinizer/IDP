@@ -34,11 +34,20 @@
                 android:hint="Enter description"/>
 
             <Button
+                android:id="@+id/bookmark_button"
+
+                android:text="Add bookmark"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:background="@drawable/buttonshape"
                 android:layout_width="172dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="Add bookmark"
-                android:id="@+id/bookmark_button" />
+
+                android:shadowColor="#000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,6 +69,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/expandableListView"
+            android:background="@drawable/expandable_list_view"
+            android:textColor="#000000"
+            android:textSize="12sp"
             android:layout_weight="0.2"/>
 
     </LinearLayout>
@@ -71,19 +83,18 @@
         android:layout_height="wrap_content"
         android:text="Pause"
         android:id="@+id/play_button"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:background="@drawable/buttonshape"
         android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout1"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:id="@+id/next_button"
-        android:layout_gravity="bottom"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignEnd="@+id/range_seekbar" />
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <FrameLayout
         android:id="@+id/range_seekbar"
@@ -130,6 +141,22 @@
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
         android:layout_marginTop="385dp" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:text="NEXT"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_alignParentEnd="true"
+
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
 
 </RelativeLayout>

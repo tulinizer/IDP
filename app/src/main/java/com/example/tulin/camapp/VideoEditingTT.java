@@ -1,5 +1,9 @@
 package com.example.tulin.camapp;
 
+import android.graphics.drawable.Drawable;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,10 +16,15 @@ import android.graphics.PorterDuff;
 import android.media.MediaMetadataRetriever;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -28,16 +37,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
 import android.app.ProgressDialog;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.view.ViewGroup.LayoutParams;
 
+import com.example.tulin.camapp.DrawRect;
+
 import java.io.File;
 import java.util.ArrayList;
 
-
-public class VideoEditingTT extends Activity {
+public class VideoEditingTT extends AppCompatActivity {
 
     private VideoView videoView;
 
@@ -49,19 +60,21 @@ public class VideoEditingTT extends Activity {
     private String path = mediaStorageDir.getPath() + File.separator + fileName;
     private Uri fileUri = Uri.parse(path.toString());
 
+    public MediaController mediaController;
     boolean initialState = true;
     boolean initSeekbar = true;
     double videoDuration, stopPos;
     double currentMinPos, currentMaxPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    int padding = 22, frameWidth = 10, frameHeight = 10, seekbarWidth;
+    int padding = 80, frameHeight = 80, seekbarWidth;
+    int HEIGHT= 80;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     Bitmap icon;
     LinearLayout layout;
     int screenWidthPx;
-    TextView textViewMin, textViewMax, textViewTs;
+    TextView textViewMin, textViewMax;
     Button apply;
     boolean playing = true;
     DrawRect rect;
@@ -83,8 +96,6 @@ public class VideoEditingTT extends Activity {
         final Button playButton = (Button) findViewById(R.id.play_button);
         final Button cutButton = (Button) findViewById(R.id.cut_button);
         final Button trimButton = (Button) findViewById(R.id.trim_button);
-        final Button bookmarkButton = (Button) findViewById(R.id.bookmark_button);
-        textViewTs = (TextView) findViewById(R.id.textView_ts);
         rect = (DrawRect) findViewById(R.id.rect);
 
         trimButton.setPressed(true);
@@ -97,12 +108,20 @@ public class VideoEditingTT extends Activity {
         textViewMin.bringToFront();
         textViewMax.bringToFront();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
         Bitmap Left_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seekbar_norm);
         textViewPadding = 0.5f *  Left_thumbImage_nrml.getWidth();
-
-        final MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
 
         // get screen width in pixels
         Display display = getWindowManager().getDefaultDisplay();
@@ -112,14 +131,39 @@ public class VideoEditingTT extends Activity {
 
         // Convert padding to px from dp
         Resources r = getResources();
-        float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, r.getDisplayMetrics());
+        float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
 
-        seekbarWidth = screenWidthPx - (int)(2 * padd);
+
+        /*DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float logicalDensity = metrics.density;
+         frameHeight = (int) Math.ceil(logicalDensity/HEIGHT);
+        */
+        frameHeight =  (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, HEIGHT, r.getDisplayMetrics());
+
+        seekbarWidth =  screenWidthPx - (int)(padd);
 
         //specify the location of media file
         final Uri uri = Uri.parse(path);
         //Setting MediaController and URI, then starting the videoView
         videoView.setVideoURI(uri);
+
+        mediaController = new MediaController(this);
+
+        videoView.setMediaController(new MediaController(this) {
+            @Override
+            public void hide()
+            {
+                mediaController.show();
+            }
+
+        });
+
+        mediaController.setAlpha(0.9f);
+
+        //  videoView.setMediaController(mediaController);
+
+        //mediaController.setAnchorView(videoView);
 
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(path);
@@ -143,7 +187,19 @@ public class VideoEditingTT extends Activity {
         previewEndPos = videoDuration * 0.9;
         Log.d(String.valueOf(previewStartPos), String.valueOf(previewEndPos));
         CalculateFrameSize(seekbarWidth);
-        rect.setHeight(frameHeight);
+
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float logicalDensity = metrics.density;
+
+      //  int px = (int) Math.ceil(60 * logicalDensity);
+        //int s = (int) Math.ceil(2 * logicalDensity);
+
+        frameHeight = HEIGHT;
+
+        rect.setHeight(HEIGHT, 0);
+        seekbarWidth = frameHeight*TOTALFRAME;
         rect.width = seekbarWidth;
         rect.mSelectionEnd = seekbarWidth;
 
@@ -164,11 +220,11 @@ public class VideoEditingTT extends Activity {
             imageView.setId(i);
 
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long)frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
-            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameHeight, frameHeight, true);
 
             frameTime += frameFreq;
 
-            imageView.setLayoutParams(new LayoutParams(frameWidth, frameHeight));
+            imageView.setLayoutParams(new LayoutParams(frameHeight, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bmFrame);
@@ -176,6 +232,16 @@ public class VideoEditingTT extends Activity {
             imageView.setImageBitmap(bm);
             layout.addView(imageView);
         }
+
+
+        Log.d("fHeight: ", String.valueOf(frameHeight));
+
+    //    ImageView im = (ImageView) findViewById(R.id.movie_clip);
+    //    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int)seekbarWidth, frameHeight);
+    //    im.setLayoutParams(layoutParams);
+    //    im.setLayoutParams(new RelativeLayout.LayoutParams(screenWidthPx-100, 500));
+     //   im.setPadding(0,0,5,10);
+
 
         videoView.start();
 
@@ -249,19 +315,49 @@ public class VideoEditingTT extends Activity {
             }
         });
 
-        bookmarkButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+    }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+       /* MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        */
+        // Configure the search info and add any event listeners...
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.action_next: {
                 Intent intent = new Intent();
 
                 intent.setClass(VideoEditingTT.this, AddBookmarkActivity.class);
                 startActivity(intent);
             }
-        });
 
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -324,11 +420,9 @@ public class VideoEditingTT extends Activity {
 
                 textViewMin.invalidate();
                 textViewMax.invalidate();
-                textViewTs.invalidate();
             //    int val = (minValue * (seekbarWidth - 2 * seekBar.getThumbOffset())) / seekBar.getMax();
                 textViewMin.setText("" + String.format("%.2f", minValue));
                 textViewMax.setText("" + String.format("%.2f", maxValue));
-                textViewTs.setText("" + String.format("%.2f", minValue));
                 textViewMin.setX((float) Scaler(minValue));
 
                 textViewMax.setX((float) Scaler(maxValue));
@@ -392,6 +486,7 @@ public class VideoEditingTT extends Activity {
         return (val/videoDuration) * (seekbarWidth);
     }
 
+
     private double Scaler(double val_to_scale){
 
         //Method to scale down values in range 0-200
@@ -410,10 +505,10 @@ public class VideoEditingTT extends Activity {
     }
 
     private void CalculateFrameSize(int width) {
-         Double d  = Math.ceil((double)width / (double)TOTALFRAME);
 
-        frameWidth = d.intValue();
+        TOTALFRAME = (width / frameHeight)+1;
+        Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
 
-        frameHeight = frameWidth;
+       // frameHeight = frameWidth;
     }
 }

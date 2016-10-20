@@ -57,8 +57,6 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
     private Thumb pressedThumb = null;
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;
-    private double screenMargin = 25.0;
-
 
     /**
      * Default color of a {@link TwoThumbsSeekbar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.

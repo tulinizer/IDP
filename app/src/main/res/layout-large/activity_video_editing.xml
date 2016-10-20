@@ -1,157 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="326dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/trim_button">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="0.2">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="NEXT"
-                android:id="@+id/bookmark_button" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:id="@+id/textView_ts" />
-
-
-        </LinearLayout>
-
-        <VideoView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/video_view"
-            android:layout_weight="0.6" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="0.2">
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pause"
-        android:id="@+id/play_button"
-        android:layout_gravity="bottom"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cut"
-        android:id="@+id/cut_button"
-        android:layout_gravity="bottom"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_toStartOf="@+id/trim_button" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trim"
-        android:id="@+id/trim_button"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentEnd="true" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Apply Trim"
-        android:id="@+id/apply"
-        android:layout_alignBottom="@+id/cut_button"
-        android:layout_centerHorizontal="true" />
-
-
-    <FrameLayout
-        android:id="@+id/range_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="375dp">
-
-    </FrameLayout>
-
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/horizontal_scroll"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="400dp">
-
-        <LinearLayout
-                android:id="@+id/linear_images"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-        </LinearLayout>
-
-    </HorizontalScrollView>
-
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
-        android:id="@+id/timestampMin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="380dp"/>
-
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/timestampMax"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="380dp" />
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/iconView"
-        android:layout_alignLeft="@+id/horizontal_scroll"
-        android:layout_alignBottom="@+id/horizontal_scroll"
-        android:layout_alignTop="@+id/horizontal_scroll"
-        android:layout_alignRight="@+id/horizontal_scroll"
-        android:layout_alignEnd="@+id/horizontal_scroll"/>
+        android:orientation="vertical"
+        android:weightSum="10">
 
-    <com.example.tulin.camapp.DrawRect
-        android:id="@+id/rect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="400dp"  />
+        <FrameLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:background="@android:color/holo_green_dark" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="7" >
+
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Trim"
+                android:id="@+id/trim_button"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:layout_weight="1"
+
+                android:shadowColor="#000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:background="@drawable/buttonshape" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Cut"
+                android:id="@+id/cut_button"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:layout_weight="1"
+
+                android:shadowColor="#000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:background="@drawable/buttonshape" />
+
+
+            <VideoView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/video_view"
+                android:layout_weight="4" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Apply Trim"
+                android:id="@+id/apply"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:background="@drawable/buttonshape"
+
+                android:shadowColor="#000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"/>
+
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="0"
+                android:id="@+id/timestampMin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/timestampMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true">
+
+
+            <LinearLayout
+                android:id="@+id/linear_images"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true">
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/range_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true">
+            </FrameLayout>
+
+            <com.example.tulin.camapp.DrawRect
+                android:id="@+id/rect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"/>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
 
 </RelativeLayout>

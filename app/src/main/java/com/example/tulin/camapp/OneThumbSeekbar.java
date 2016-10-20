@@ -403,7 +403,7 @@ public class OneThumbSeekbar<T extends Number> extends ImageView {
      * @param canvas
      *            The canvas to draw upon.
      */
-    private void drawLThumb(float screenCoord, Thumb pressed, Canvas canvas) {
+    public void drawLThumb(float screenCoord, Thumb pressed, Canvas canvas) {
         Log.w("lftBoolean", isLeftThumb.toString());
 
         canvas.drawBitmap(isLeftThumb ? Left_thumbPressedImage : Left_thumbImage_nrml, screenCoord - thumbHalfWidth, (float) ((0.5f * getHeight()) - thumbHalfHeight), paint);
