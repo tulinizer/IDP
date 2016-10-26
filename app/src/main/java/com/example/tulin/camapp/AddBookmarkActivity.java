@@ -14,9 +14,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,7 +54,7 @@ import static android.R.attr.data;
  * Created by tulin on 28.06.16.
  */
 
-public class AddBookmarkActivity extends Activity {
+public class AddBookmarkActivity extends AppCompatActivity {
 
     private VideoView videoView;
     private  OneThumbSeekbar<Double> TTSeekbar;
@@ -66,7 +70,7 @@ public class AddBookmarkActivity extends Activity {
     double currentMinPos, currentMaxPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    int padding = 22, frameWidth = 10, frameHeight = 10, seekbarWidth;
+    int padding = 65, frameHeight = 100, seekbarWidth;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     LinearLayout layout;
@@ -107,15 +111,17 @@ public class AddBookmarkActivity extends Activity {
         edittextDesc = (EditText) findViewById(R.id.edittextDesc);
         bookmarkLine = (DrawBookmarkLine) findViewById(R.id.bookmark_line);
 
-//        item = (TimelineItem) findViewById(R.id.timelineItem);
- //       item.setEventsListener(this);
- //       item.enableSegmentPicker(false);
 
-  //      item.setOnClickListener(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
-        //   bookmarkLine.setParameters((float) 200, 0, (float)200, 100);
-        //  bookmarkLine.invalidate();
-
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -152,11 +158,14 @@ public class AddBookmarkActivity extends Activity {
         display.getSize(size);
         screenWidthPx = size.x;
 
+
+        frameHeight =  (int) (size.y)/6;
+
         // Convert padding to px from dp
         Resources r = getResources();
         float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, r.getDisplayMetrics());
 
-        seekbarWidth = screenWidthPx - (int) (2 * padd);
+        seekbarWidth = screenWidthPx - (int) (padd);
 
         Log.d(String.valueOf(seekbarWidth), "seekbar width px");
         Log.d(String.valueOf(textViewPadding), "padding in px");
@@ -201,10 +210,10 @@ public class AddBookmarkActivity extends Activity {
 
 
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long) frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
-            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameHeight, frameHeight, true);
 
             frameTime += frameFreq;
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameWidth, frameHeight));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameHeight, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bmFrame);
@@ -324,6 +333,7 @@ public class AddBookmarkActivity extends Activity {
         });
 
 
+        /*
         nextButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -343,13 +353,54 @@ public class AddBookmarkActivity extends Activity {
 
 
 
-
-           //     Intent intent = new Intent();
-           //     intent.setClass(AddBookmarkActivity.this, SelectVideo.class);
-           //     startActivity(intent);
-
         });
+         */
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+       /* MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        */
+        // Configure the search info and add any event listeners...
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.action_next: {
+                Intent intent = new Intent();
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_TAKE_GALLERY_VIDEO);
+            }
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddBookmarkActivity.this, VideoEditingTT.class);
+        startActivity(intent);
     }
 
 
@@ -461,76 +512,10 @@ public class AddBookmarkActivity extends Activity {
     }
 
     private void CalculateFrameSize(int width) {
-        Double d  = Math.ceil((double)width / (double)TOTALFRAME);
 
-        frameWidth = d.intValue();
+        TOTALFRAME = (width / frameHeight);
+        Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
 
-        frameHeight = frameWidth;
+        // frameHeight = frameWidth;
     }
-
-
-
-    /*
-    @Override
-    public void onClick(View view) {
-
-        try {
-            writeToStorage(jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        String mediaFileName1 = item.getMediaFileName();
-
-        if (mediaFileName1 == null) {
-            showToast("Please select valid video files first.");
-
-            return;
-        }
-
-        //   item.stopVideoView();
-
-        Intent intent = new Intent();
-        intent.setClass(AddBookmarkActivity.this, PlaybackActivity.class);
-
-        Bundle bundle = new Bundle();
-        //   bundle.putString("srcMediaName1", item1.getMediaFileName());
-        //   intent.putExtras(bundle);
-
-        bundle.putString("videoPath", item.getUri().getString());
-        intent.putExtras(bundle);
-
-        System.out.println("selected video path :" + item.getUri().getString());
-        Log.d("dosya adi ", item.getUri().getString());
-
-        startActivity(intent);
-
-
-        //  Intent intent = new Intent();
-        // intent.setClass(AddBookmarkActivity.this, PlaybackActivity.class);
-        //startActivity(intent);
-    }
-*/
-
-    private void writeToStorage(JSONArray array) throws JSONException {
-        try {
-            FileWriter fileWriter= new FileWriter(new File(mediaStorageDir.getPath() + File.separator + "bookmarks.txt"));
-            BufferedWriter out = new BufferedWriter(fileWriter);
-
-            String[] jsonString = new String[array.length()];
-            for (int i = 1; i < array.length(); i++) {
-                jsonString[i] = array.get(i).toString();
-                out.write(jsonString[i] + "\n");
-            }
-            out.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    }
+}

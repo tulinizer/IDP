@@ -160,11 +160,21 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"/>
 
-            <Button
-                android:layout_width="58dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/play_button"
-                android:background="@drawable/ic_pause"/>
+                android:background="@drawable/gray_rect"
+                android:layout_marginBottom="5dp">
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/play_button"
+                    android:background="@drawable/ic_pause"
+                    />
+
+            </LinearLayout>
+
 
         </FrameLayout>
 

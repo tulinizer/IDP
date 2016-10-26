@@ -1,6 +1,8 @@
 package com.example.tulin.camapp;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -68,7 +70,6 @@ public class VideoEditingTT extends AppCompatActivity {
     double durationDouble;
     long durationLong = 1L;
     int padding = 65, frameHeight = 100, seekbarWidth;
-    int HEIGHT= 100;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     Bitmap icon;
@@ -80,6 +81,7 @@ public class VideoEditingTT extends AppCompatActivity {
     DrawRect rect;
     boolean rectTrim = true;
     boolean bookmarkAdded, applyTrim = false;
+    Context context;
 
     float textViewPadding;
 
@@ -134,7 +136,7 @@ public class VideoEditingTT extends AppCompatActivity {
         float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
 
 
-
+        context = getApplicationContext();
 
 
         seekbarWidth =  screenWidthPx - (int)(padd);
@@ -146,7 +148,6 @@ public class VideoEditingTT extends AppCompatActivity {
 
         rect.setHeight(frameHeight, 0);
 
-    //    seekbarWidth = screenWidthPx - (padd);//frameHeight*TOTALFRAME;
         Log.d("seebar width: ", String.valueOf(seekbarWidth));
 
         rect.width = seekbarWidth;
@@ -253,11 +254,14 @@ public class VideoEditingTT extends AppCompatActivity {
 
                 if (playing) {
                     videoView.pause();
-                    playButton.setText("Play");
+                //    playButton.setText("Play");
+                    playButton.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_play));
                     playing = false;
                 } else {
                     videoView.start();
-                    playButton.setText("Pause");
+                //    playButton.setText("Pause");
+                    playButton.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_pause));
+
                     playing = true;
                 }
             }
