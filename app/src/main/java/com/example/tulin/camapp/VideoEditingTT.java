@@ -67,8 +67,8 @@ public class VideoEditingTT extends AppCompatActivity {
     double currentMinPos, currentMaxPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    int padding = 80, frameHeight = 80, seekbarWidth;
-    int HEIGHT= 80;
+    int padding = 65, frameHeight = 100, seekbarWidth;
+    int HEIGHT= 100;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     Bitmap icon;
@@ -134,14 +134,27 @@ public class VideoEditingTT extends AppCompatActivity {
         float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
 
 
-        /*DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float logicalDensity = metrics.density;
-         frameHeight = (int) Math.ceil(logicalDensity/HEIGHT);
-        */
-        frameHeight =  (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, HEIGHT, r.getDisplayMetrics());
+
+
 
         seekbarWidth =  screenWidthPx - (int)(padd);
+
+
+
+        frameHeight =  (int) (size.y)/6; //(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, HEIGHT, r.getDisplayMetrics());
+
+
+        rect.setHeight(frameHeight, 0);
+
+    //    seekbarWidth = screenWidthPx - (padd);//frameHeight*TOTALFRAME;
+        Log.d("seebar width: ", String.valueOf(seekbarWidth));
+
+        rect.width = seekbarWidth;
+        rect.mSelectionEnd = seekbarWidth;
+
+        rect.setParameters((float) (seekbarWidth * 0.1), ((float) (seekbarWidth * 0.9)), 0, rectTrim);
+        rect.invalidate();
+
 
         //specify the location of media file
         final Uri uri = Uri.parse(path);
@@ -189,23 +202,6 @@ public class VideoEditingTT extends AppCompatActivity {
         CalculateFrameSize(seekbarWidth);
 
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float logicalDensity = metrics.density;
-
-      //  int px = (int) Math.ceil(60 * logicalDensity);
-        //int s = (int) Math.ceil(2 * logicalDensity);
-
-        frameHeight = HEIGHT;
-
-        rect.setHeight(HEIGHT, 0);
-        seekbarWidth = frameHeight*TOTALFRAME;
-        rect.width = seekbarWidth;
-        rect.mSelectionEnd = seekbarWidth;
-
-        rect.setParameters((float) (seekbarWidth * 0.1), ((float) (seekbarWidth * 0.9)), 0, rectTrim);
-        rect.invalidate();
-
 
         layout = (LinearLayout) findViewById(R.id.linear_images);
     //    frameList = new ArrayList<Bitmap>();
@@ -215,7 +211,12 @@ public class VideoEditingTT extends AppCompatActivity {
         double frameTime = 0.;
         double frameFreq = durationDouble/TOTALFRAME;
 
-        for (int i = 0; i < TOTALFRAME; i++) {
+    //    frameHeight = layout.getHeight();
+
+
+
+
+        for (int i = 0; i <= TOTALFRAME; i++) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setId(i);
 
@@ -506,7 +507,7 @@ public class VideoEditingTT extends AppCompatActivity {
 
     private void CalculateFrameSize(int width) {
 
-        TOTALFRAME = (width / frameHeight)+1;
+        TOTALFRAME = (width / frameHeight);
         Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
 
        // frameHeight = frameWidth;
