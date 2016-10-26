@@ -21,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
+                android:layout_gravity="center"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 android:background="@android:color/holo_green_dark" />
 
@@ -35,42 +36,50 @@
             android:layout_weight="7" >
 
 
-            <Button
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trim"
-                android:id="@+id/trim_button"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_weight="1"
+                android:orientation="vertical" >
 
-                android:shadowColor="#000000"
-                android:shadowDx="0"
-                android:shadowDy="0"
-                android:shadowRadius="5"
-                android:background="@drawable/buttonshape" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trim"
+                    android:id="@+id/trim_button"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_weight="0.5"
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Cut"
-                android:id="@+id/cut_button"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_weight="1"
+                    android:shadowColor="#000000"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:background="@drawable/buttonshape" />
 
-                android:shadowColor="#000000"
-                android:shadowDx="0"
-                android:shadowDy="0"
-                android:shadowRadius="5"
-                android:background="@drawable/buttonshape" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cut"
+                    android:id="@+id/cut_button"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_weight="0.5"
+
+                    android:shadowColor="#000000"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:background="@drawable/buttonshape" />
+
+            </LinearLayout>
+
 
 
             <VideoView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/video_view"
-                android:layout_weight="4" />
+                android:layout_weight="5" />
 
             <Button
                 android:layout_width="0dp"
@@ -117,10 +126,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:layout_alignParentBottom="true">
-
+            android:layout_weight="1">
 
             <LinearLayout
                 android:id="@+id/linear_images"
@@ -128,10 +134,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
 
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="5dp"
-                android:layout_alignParentBottom="true">
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="4dp">
             </LinearLayout>
 
             <FrameLayout
@@ -139,21 +143,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="5dp"
-                android:layout_alignParentBottom="true">
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="4dp">
             </FrameLayout>
 
             <com.example.tulin.camapp.DrawRect
                 android:id="@+id/rect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/gray_rect"
 
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="5dp"
-                android:layout_alignParentBottom="true"/>
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_button"
+                android:background="@drawable/ic_pause"/>
 
         </FrameLayout>
 
