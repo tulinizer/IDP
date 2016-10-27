@@ -12,7 +12,7 @@ import android.widget.ImageView;
 /**
  * Created by tulin on 27.06.16.
  */
-public class DrawBookmarkLine extends ImageView {
+public class DrawBookmarkText extends ImageView {
     private float x1, y2;
     private Paint mBorderLinePaint, mPaint;
     Bitmap mDrawBitmap;
@@ -20,7 +20,7 @@ public class DrawBookmarkLine extends ImageView {
     int mHeight;
     String mTag = " ";
 
-        public DrawBookmarkLine(Context context, AttributeSet attrs) {
+        public DrawBookmarkText(Context context, AttributeSet attrs) {
             super(context, attrs);
 
             mBorderLinePaint = new Paint();
@@ -59,7 +59,8 @@ public class DrawBookmarkLine extends ImageView {
             }
 
             Log.d("Drawing to canvas..."+String.valueOf(x1), mTag);
-            mBitmapCanvas.drawLine(x1, 0, x1, y2, mBorderLinePaint);
+            mBitmapCanvas.drawText(mTag, x1-15, 15, mPaint);
+
             canvas.drawBitmap(mDrawBitmap, 0, 0, mBorderLinePaint);
 
 

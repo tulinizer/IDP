@@ -37,91 +37,104 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:layout_weight="2">
+
+
+                <EditText
+                    android:id="@+id/edittextTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="invisible"
+                    android:layout_marginTop="0dp"
+                    android:hint="Enter tag"
+                    android:layout_weight="0.5"/>
+
+                <EditText
+                    android:id="@+id/edittextDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="invisible"
+                    android:layout_marginTop="0dp"
+                    android:hint="Enter description"
+
+                    android:layout_weight="0.5"/>
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trim"
-                    android:id="@+id/trim_button"
+                    android:id="@+id/bookmark_button"
+
+                    android:text="Add bookmark"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp"
-                    android:layout_weight="0.5"
+                    android:background="@drawable/buttonshape"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
 
                     android:shadowColor="#000000"
                     android:shadowDx="0"
                     android:shadowDy="0"
                     android:shadowRadius="5"
-                    android:background="@drawable/buttonshape" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cut"
-                    android:id="@+id/cut_button"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
                     android:layout_weight="0.5"
+                    />
 
-                    android:shadowColor="#000000"
-                    android:shadowDx="0"
-                    android:shadowDy="0"
-                    android:shadowRadius="5"
-                    android:background="@drawable/buttonshape" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text=""
+                    android:id="@+id/textView_ts"
+
+                    android:layout_weight="0.5"/>
+
 
             </LinearLayout>
-
-
 
             <VideoView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/video_view"
-                android:layout_weight="6" />
+                android:layout_weight="4" />
 
-            <Button
+
+            <ExpandableListView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Apply Trim"
-                android:id="@+id/apply"
-                android:layout_gravity="center"
-                android:textColor="#FFFFFF"
+                android:id="@+id/expandableListView"
+                android:background="@drawable/expandable_list_view"
+                android:textColor="#000000"
                 android:textSize="12sp"
-                android:background="@drawable/buttonshape"
-
-                android:shadowColor="#000000"
-                android:shadowDx="0"
-                android:shadowDy="0"
-                android:shadowRadius="5"/>
+                android:layout_weight="2"/>
 
 
         </LinearLayout>
 
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="0"
                 android:id="@+id/timestampMin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:layout_gravity="center_vertical"/>
 
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/timestampMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <com.example.tulin.camapp.DrawBookmarkText
+                android:id="@+id/bookmark_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:layout_marginStart="60dp"
+                android:layout_gravity="bottom"/>
 
-        </FrameLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -148,12 +161,13 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp">
 
-        </FrameLayout>
+            </FrameLayout>
 
-            <com.example.tulin.camapp.DrawRect
-                android:id="@+id/rect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <com.example.tulin.camapp.DrawBookmarkLine
+                android:id="@+id/bookmark_line"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/gray_rect"
 
                 android:layout_marginStart="60dp"
@@ -169,6 +183,7 @@
                 <Button
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:id="@+id/play_button"
                     android:background="@drawable/ic_pause"
                     />

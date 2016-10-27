@@ -41,55 +41,39 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-
-                <EditText
-                    android:id="@+id/edittextTag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:layout_marginTop="0dp"
-                    android:hint="Enter tag"
-                    android:layout_weight="0.25"/>
-
-                <EditText
-                    android:id="@+id/edittextDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:layout_marginTop="0dp"
-                    android:hint="Enter description"
-
-                    android:layout_weight="0.25"/>
-
                 <Button
-                    android:id="@+id/bookmark_button"
-
-                    android:text="Add bookmark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trim"
+                    android:id="@+id/trim_button"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp"
-                    android:background="@drawable/buttonshape"
-                    android:layout_width="172dp"
-                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
 
                     android:shadowColor="#000000"
                     android:shadowDx="0"
                     android:shadowDy="0"
                     android:shadowRadius="5"
+                    android:background="@drawable/buttonshape" />
 
-                    android:layout_weight="0.25"
-                    />
-
-                <TextView
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text=""
-                    android:id="@+id/textView_ts"
+                    android:text="Cut"
+                    android:id="@+id/cut_button"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_weight="0.5"
 
-                    android:layout_weight="0.25"/>
-
+                    android:shadowColor="#000000"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:background="@drawable/buttonshape" />
 
             </LinearLayout>
+
+
 
             <VideoView
                 android:layout_width="0dp"
@@ -97,15 +81,22 @@
                 android:id="@+id/video_view"
                 android:layout_weight="6" />
 
-
-            <ExpandableListView
+            <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/expandableListView"
-                android:background="@drawable/expandable_list_view"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Apply Trim"
+                android:id="@+id/apply"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
-                android:layout_weight="2"/>
+                android:background="@drawable/buttonshape"
+
+                android:shadowColor="#000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"/>
 
 
         </LinearLayout>
@@ -119,7 +110,6 @@
 
             <TextView
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="0"
                 android:id="@+id/timestampMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -159,11 +149,10 @@
 
             </FrameLayout>
 
-
-            <com.example.tulin.camapp.DrawBookmarkLine
-                android:id="@+id/bookmark_line"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <com.example.tulin.camapp.DrawRect
+                android:id="@+id/rect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/gray_rect"
 
                 android:layout_marginStart="60dp"
@@ -179,17 +168,12 @@
                 <Button
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
                     android:id="@+id/play_button"
                     android:background="@drawable/ic_pause"
                     />
 
             </LinearLayout>
-
-
         </FrameLayout>
-
-
     </LinearLayout>
 
 </RelativeLayout>

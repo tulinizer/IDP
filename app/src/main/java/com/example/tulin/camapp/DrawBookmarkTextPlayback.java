@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by tulin on 04.07.16.
  */
-public class DrawBookmarkLinePlayback extends ImageView {
+public class DrawBookmarkTextPlayback extends ImageView {
     private Paint mBorderLinePaint, mPaint;
     Bitmap mDrawBitmap;
     Canvas mBitmapCanvas;
@@ -23,7 +22,7 @@ public class DrawBookmarkLinePlayback extends ImageView {
 
     HashMap<String, Float> mLines;
 
-    public DrawBookmarkLinePlayback(Context context, AttributeSet attrs) {
+    public DrawBookmarkTextPlayback(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mBorderLinePaint = new Paint();
@@ -53,7 +52,7 @@ public class DrawBookmarkLinePlayback extends ImageView {
         super.onDraw(canvas);
 
         for (String s : mLines.keySet()) {
-            canvas.drawLine(mLines.get(s), 0, mLines.get(s), mHeight, mBorderLinePaint);
+            canvas.drawText(s, mLines.get(s), 20, mPaint);
 
         }
 

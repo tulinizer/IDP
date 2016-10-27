@@ -2,6 +2,7 @@ package com.example.tulin.camapp;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -161,6 +162,16 @@ public class VideoEditingTT extends AppCompatActivity {
         final Uri uri = Uri.parse(path);
         //Setting MediaController and URI, then starting the videoView
         videoView.setVideoURI(uri);
+
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer vmp) {
+                playButton.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_play));
+                playing = false;
+
+            }
+        });
 
         mediaController = new MediaController(this);
 

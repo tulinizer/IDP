@@ -1,6 +1,8 @@
 package com.example.tulin.camapp;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,12 +10,18 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,7 +53,7 @@ import java.util.List;
 /**
  * Created by tulin on 03.07.16.
  */
-public class PlaybackActivity extends Activity {
+public class PlaybackActivity extends AppCompatActivity {
 
     private VideoView videoView;
     private  OneThumbSeekbar<Double> TTSeekbar;
@@ -59,7 +67,8 @@ public class PlaybackActivity extends Activity {
     double currentMinPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    int padding = 22, frameWidth = 10, frameHeight = 10, seekbarWidth;
+    int padding = 65, frameHeight = 100, seekbarWidth;
+    float padd;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     LinearLayout layout;
@@ -71,6 +80,7 @@ public class PlaybackActivity extends Activity {
 
     float textViewPadding;
     DrawBookmarkLinePlayback bookmarkLine;
+    DrawBookmarkTextPlayback bookmarkText;
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
@@ -81,6 +91,7 @@ public class PlaybackActivity extends Activity {
     HashMap<String, Float> lines;
 
     TimelineItem item = null;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +103,21 @@ public class PlaybackActivity extends Activity {
         final Button playButton = (Button) findViewById(R.id.play_button);
         final Button bookmarkButton = (Button) findViewById(R.id.bookmark_button);
         bookmarkLine = (DrawBookmarkLinePlayback) findViewById(R.id.bookmark_line);
+        bookmarkText = (DrawBookmarkTextPlayback) findViewById(R.id.bookmark_text);
+
+        context = getApplicationContext();
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
         lines = new HashMap<>();
@@ -128,11 +154,13 @@ public class PlaybackActivity extends Activity {
         display.getSize(size);
         screenWidthPx = size.x;
 
+        frameHeight =  (int) (size.y)/6;
+
         // Convert padding to px from dp
         Resources r = getResources();
-        float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, r.getDisplayMetrics());
+        padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
 
-        seekbarWidth = screenWidthPx - (int)(2 * padd);
+        seekbarWidth = screenWidthPx - (int)(padd);
 
         Log.d(String.valueOf(seekbarWidth), "seekbar width px");
         Log.d(String.valueOf(textViewPadding), "padding in px");
@@ -141,6 +169,16 @@ public class PlaybackActivity extends Activity {
         final Uri uri = Uri.parse(path);
         //Setting MediaController and URI, then starting the videoView
         videoView.setVideoURI(uri);
+
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer vmp) {
+                playButton.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_play));
+                playing = false;
+
+            }
+        });
 
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(path);
@@ -171,16 +209,16 @@ public class PlaybackActivity extends Activity {
         double frameTime = 0.;
         double frameFreq = durationDouble/TOTALFRAME;
 
-        for (int i = 0; i < TOTALFRAME; i++) {
+        for (int i = 0; i <= TOTALFRAME; i++) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setId(i);
 
 
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long)frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
-            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameHeight, frameHeight, true);
 
             frameTime += frameFreq;
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameWidth, frameHeight));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameHeight, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bmFrame);
@@ -190,6 +228,7 @@ public class PlaybackActivity extends Activity {
         }
 
         bookmarkLine.setHeight(frameHeight);
+        bookmarkLine.bringToFront();
 
         // fill the jsonarray with bookmark list
         try {
@@ -207,11 +246,11 @@ public class PlaybackActivity extends Activity {
 
                 if (playing) {
                     videoView.pause();
-                    playButton.setText("Play");
+                    playButton.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_play));
                     playing = false;
                 } else {
                     videoView.start();
-                    playButton.setText("Pause");
+                    playButton.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_pause));
                     playing = true;
                 }
             }
@@ -244,6 +283,38 @@ public class PlaybackActivity extends Activity {
 
 
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlaybackActivity.this, AddBookmarkActivity.class);
+        startActivity(intent);
+    }
+
 
 
     private void initSeekbar() {
@@ -288,29 +359,18 @@ public class PlaybackActivity extends Activity {
         return (val/videoDuration) * (seekbarWidth);
     }
 
+
     private double Scaler(double val_to_scale){
 
-        //Method to scale down values in range 0-200
-        /**
-         * Formula used (b-a)(x-min) + a
-         * 				------------
-         * 				 max - min
-         *
-         * where [min,max] is range to scale and [a,b] is [0,200]
-         * and x is current value to scale.
-         *
-         * */
-
-        return ((padding - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
+        return ((padd - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
 
     }
 
     private void CalculateFrameSize(int width) {
-        Double d  = Math.ceil((double)width / (double)TOTALFRAME);
 
-        frameWidth = d.intValue();
+        TOTALFRAME = (width / frameHeight);
+        Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
 
-        frameHeight = frameWidth;
     }
 
     private void readFromStorage() throws JSONException {
@@ -333,6 +393,7 @@ public class PlaybackActivity extends Activity {
                     lines.put((String)jObj.get("tag"), pos);
 
 
+
                     Log.d(String.valueOf((jObj.get("timestamp"))), " *****000000000000000 "+String.valueOf(pos));
                     //    Log.d(String.valueOf(((double)jObj.get("timestamp"))/videoDuration), " *****00011111111111 "+String.valueOf(seekbarWidth));
 
@@ -351,8 +412,10 @@ public class PlaybackActivity extends Activity {
                 }
             }
 
-            bookmarkLine.setParameters(lines);
+            bookmarkLine.setParameters(lines, frameHeight);
             bookmarkLine.invalidate();
+            bookmarkText.setParameters(lines, frameHeight);
+            bookmarkText.invalidate();
 
         } catch (FileNotFoundException e) {
             Log.d("file not foud ***"," ");
