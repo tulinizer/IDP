@@ -67,8 +67,8 @@ public class PlaybackActivity extends AppCompatActivity {
     double currentMinPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    int padding = 65, frameHeight = 100, seekbarWidth;
-    float padd;
+    int padding = 65, frameHeight = 100, frameWidth, seekbarWidth;
+    float padding_px;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     LinearLayout layout;
@@ -111,13 +111,7 @@ public class PlaybackActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setTitle("Playback Activity");
 
 
         lines = new HashMap<>();
@@ -158,9 +152,9 @@ public class PlaybackActivity extends AppCompatActivity {
 
         // Convert padding to px from dp
         Resources r = getResources();
-        padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
+        padding_px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
 
-        seekbarWidth = screenWidthPx - (int)(padd);
+        seekbarWidth = screenWidthPx - (int)(padding_px);
 
         Log.d(String.valueOf(seekbarWidth), "seekbar width px");
         Log.d(String.valueOf(textViewPadding), "padding in px");
@@ -215,10 +209,10 @@ public class PlaybackActivity extends AppCompatActivity {
 
 
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long)frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
-            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameHeight, frameHeight, true);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
 
             frameTime += frameFreq;
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameHeight, frameHeight));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameWidth, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bmFrame);
@@ -302,6 +296,11 @@ public class PlaybackActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
+            case R.id.action_next: {
+                Intent intent = new Intent(PlaybackActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -362,15 +361,19 @@ public class PlaybackActivity extends AppCompatActivity {
 
     private double Scaler(double val_to_scale){
 
-        return ((padd - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
+        return ((padding_px - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
 
     }
 
+
     private void CalculateFrameSize(int width) {
 
-        TOTALFRAME = (width / frameHeight);
-        Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
+        frameWidth = frameHeight;
+        while (seekbarWidth % frameWidth > 10) {
+            frameWidth--;
+        }
 
+        TOTALFRAME = seekbarWidth / frameWidth;
     }
 
     private void readFromStorage() throws JSONException {

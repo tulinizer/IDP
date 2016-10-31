@@ -52,10 +52,15 @@ public class DrawBookmarkTextPlayback extends ImageView {
         super.onDraw(canvas);
 
         for (String s : mLines.keySet()) {
-            canvas.drawText(s, mLines.get(s), 20, mPaint);
+
+            if (s.length() > 6) {
+                canvas.drawText(s.substring(0,5)+"...", mLines.get(s)-25, 15, mPaint);
+            } else if ( s.length() < 5) {
+                canvas.drawText(s,  mLines.get(s) - 15, 15, mPaint);
+            } else
+                canvas.drawText(s,  mLines.get(s) - 20, 15, mPaint);
 
         }
-
     }
 
 }

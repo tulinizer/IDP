@@ -23,7 +23,7 @@
                 android:elevation="4dp"
                 android:layout_gravity="center"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                android:background="@android:color/holo_green_dark" />
+                android:background="@color/colorPrimaryDark" />
 
         </FrameLayout>
 
@@ -82,9 +82,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:layout_marginBottom="5dp" >
-
+            android:layout_weight="2" >
 
             <LinearLayout
                 android:id="@+id/linear_images"
@@ -93,31 +91,39 @@
                 android:orientation="horizontal"
 
                 android:layout_marginStart="60dp"
-                android:layout_marginEnd="5dp">
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp">
             </LinearLayout>
+
 
             <FrameLayout
                 android:id="@+id/range_seekbar"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+
                 android:layout_marginStart="60dp"
-                android:background="@drawable/gray_rect">
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp">
 
             </FrameLayout>
 
             <com.example.tulin.camapp.DrawBookmarkLinePlayback
                 android:id="@+id/bookmark_line"
+                android:background="@drawable/gray_rect"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="60dp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/gray_rect" >
+                android:background="@drawable/gray_rect"
+                android:layout_marginBottom="5dp">
 
-                <Button
+
+            <Button
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:id="@+id/play_button"

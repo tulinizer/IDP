@@ -1,7 +1,8 @@
 package com.example.tulin.camapp;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.tulin.camapp.controls.TimelineItem;
@@ -61,7 +64,7 @@ import static android.R.attr.data;
  * Created by tulin on 28.06.16.
  */
 
-public class AddBookmarkActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+public class AddBookmarkActivity extends AppCompatActivity  {
 
     private VideoView videoView;
     private OneThumbSeekbar<Double> TTSeekbar;
@@ -77,7 +80,8 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
     double currentMinPos, currentMaxPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    int padding = 65, frameHeight = 100, seekbarWidth;
+    int padding = 65, frameHeight = 100, frameWidth, seekbarWidth;
+    float padding_px;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     LinearLayout layout;
@@ -87,7 +91,7 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
     boolean playing = true;
     boolean bookmarkAdded = false;
 
-    float padd, textViewPadding;
+    float textViewPadding;
 
     DrawBookmarkLine bookmarkLine;
     DrawBookmarkText bookmarkText;
@@ -104,6 +108,8 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
     int REQUEST_TAKE_GALLERY_VIDEO = 100;
     String selectedImagePath = null;
     Context context;
+
+    ProgressDialog progressDialog;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -178,9 +184,9 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
 
         // Convert padding to px from dp
         Resources r = getResources();
-        padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
+        padding_px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
 
-        seekbarWidth = screenWidthPx - (int) (padd);
+        seekbarWidth = screenWidthPx - (int) (padding_px);
 
         Log.d(String.valueOf(seekbarWidth), "seekbar width px");
         Log.d(String.valueOf(textViewPadding), "padding in px");
@@ -235,10 +241,10 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
 
 
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long) frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
-            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameHeight, frameHeight, true);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
 
             frameTime += frameFreq;
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameHeight, frameHeight));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(frameWidth, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bmFrame);
@@ -393,10 +399,27 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
                     e.printStackTrace();
                 }
 
-                Intent intent = new Intent();
-                intent.setType("video/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_TAKE_GALLERY_VIDEO);
+
+//                AlertDialog.Builder adb = new AlertDialog.Builder(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+               builder.setTitle("Video saved to");
+
+                builder.setMessage(getVideoFilePath());
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(AddBookmarkActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+               // builder.setNegativeButton("Cancel", null);
+                builder.show();
+
+
+
+
+
             }
 
             default:
@@ -410,46 +433,6 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
     public void onBackPressed() {
         Intent intent = new Intent(AddBookmarkActivity.this, VideoEditingTT.class);
         startActivity(intent);
-    }
-
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
-                Uri selectedImageUri = data.getData();
-
-                // OI FILE Manager
-                String filemanagerstring = selectedImageUri.getPath();
-
-                // MEDIA GALLERY
-                selectedImagePath = getPath(selectedImageUri);
-
-//                Log.d("dosya path: ", selectedImagePath);
-
-                if (selectedImagePath != null) {
-
-                    Intent intent = new Intent(AddBookmarkActivity.this,
-                            PlaybackActivity.class);
-                    intent.putExtra("path", selectedImagePath);
-                    startActivity(intent);
-                }
-            }
-        }
-    }
-
-    // UPDATED!
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if (cursor != null) {
-            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } else
-            return null;
     }
 
 
@@ -498,29 +481,22 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
         return (val / videoDuration) * (seekbarWidth);
     }
 
-    private double Scaler(double val_to_scale) {
+    private double Scaler(double val_to_scale){
 
-        //Method to scale down values in range 0-200
-        /**
-         * Formula used (b-a)(x-min) + a
-         * 				------------
-         * 				 max - min
-         *
-         * where [min,max] is range to scale and [a,b] is [0,200]
-         * and x is current value to scale.
-         *
-         * */
-
-        return ((padd - textViewPadding) + ((val_to_scale / videoDuration) * (seekbarWidth)));
+        return ((padding_px - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
 
     }
 
+
     private void CalculateFrameSize(int width) {
 
-        TOTALFRAME = (width / frameHeight);
-        Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
+        frameWidth = frameHeight;
+        while (seekbarWidth % frameWidth > 10) {
+            frameWidth --;
+        }
 
-        // frameHeight = frameWidth;
+        TOTALFRAME = seekbarWidth / frameWidth;
+
     }
 
     private void writeToStorage(JSONArray array) throws JSONException {
@@ -542,44 +518,12 @@ public class AddBookmarkActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-
+    public String getVideoFilePath() {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        return mediaStorageDir.getPath() + File.separator+ "VID" + ".mp4";
+        // return getAndroidMoviesFolder().getAbsolutePath() + "/capture.mp4";
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("AddBookmark Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
 }

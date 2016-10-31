@@ -59,7 +59,13 @@ public class DrawBookmarkText extends ImageView {
             }
 
             Log.d("Drawing to canvas..."+String.valueOf(x1), mTag);
-            mBitmapCanvas.drawText(mTag, x1-15, 15, mPaint);
+
+            if (mTag.length() > 6) {
+                mBitmapCanvas.drawText(mTag.substring(0,5)+"...", x1-25, 15, mPaint);
+            } else if ( mTag.length() < 5) {
+                mBitmapCanvas.drawText(mTag, x1 - 15, 15, mPaint);
+            } else
+                mBitmapCanvas.drawText(mTag, x1 - 20, 15, mPaint);
 
             canvas.drawBitmap(mDrawBitmap, 0, 0, mBorderLinePaint);
 

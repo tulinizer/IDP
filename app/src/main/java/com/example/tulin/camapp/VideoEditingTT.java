@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.net.Uri;
@@ -47,6 +48,8 @@ import android.widget.VideoView;
 import android.view.ViewGroup.LayoutParams;
 
 import com.example.tulin.camapp.DrawRect;
+
+import org.m4m.domain.Frame;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,7 +73,8 @@ public class VideoEditingTT extends AppCompatActivity {
     double currentMinPos, currentMaxPos, previewEndPos, previewStartPos;
     double durationDouble;
     long durationLong = 1L;
-    int padding = 65, frameHeight = 100, seekbarWidth;
+    int padding = 65, frameHeight = 100, frameWidth, seekbarWidth;
+    float padding_px;
     int TOTALFRAME = 14;
     ArrayList<Bitmap> frameList;
     Bitmap icon;
@@ -134,13 +138,13 @@ public class VideoEditingTT extends AppCompatActivity {
 
         // Convert padding to px from dp
         Resources r = getResources();
-        float padd = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
+        padding_px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, padding, r.getDisplayMetrics());
 
 
         context = getApplicationContext();
 
 
-        seekbarWidth =  screenWidthPx - (int)(padd);
+        seekbarWidth =  screenWidthPx - (int)(padding_px);
 
 
 
@@ -228,16 +232,16 @@ public class VideoEditingTT extends AppCompatActivity {
 
 
 
-        for (int i = 0; i <= TOTALFRAME; i++) {
+        for (int i = 0; i < TOTALFRAME; i++) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setId(i);
 
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime((long)frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
-            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameHeight, frameHeight, true);
+            Bitmap bm = Bitmap.createScaledBitmap(bmFrame, frameWidth, frameHeight, true);
 
             frameTime += frameFreq;
 
-            imageView.setLayoutParams(new LayoutParams(frameHeight, frameHeight));
+            imageView.setLayoutParams(new LayoutParams(frameWidth, frameHeight));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bmFrame);
@@ -389,7 +393,7 @@ public class VideoEditingTT extends AppCompatActivity {
 
             progressDialog = new ProgressDialog(VideoEditingTT.this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.setMessage("Loading");
+            progressDialog.setMessage("Loading...");
             progressDialog.setIndeterminate(false);
             progressDialog.setCancelable(false);
             progressDialog.setMax(100);
@@ -505,26 +509,39 @@ public class VideoEditingTT extends AppCompatActivity {
 
     private double Scaler(double val_to_scale){
 
-        //Method to scale down values in range 0-200
-        /**
-         * Formula used (b-a)(x-min) + a
-         * 				------------
-         * 				 max - min
-         *
-         * where [min,max] is range to scale and [a,b] is [0,200]
-         * and x is current value to scale.
-         *
-         * */
-
-       return ((padding - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
+       return ((padding_px - textViewPadding) + ((val_to_scale/videoDuration) * (seekbarWidth)));
 
     }
 
     private void CalculateFrameSize(int width) {
 
-        TOTALFRAME = (width / frameHeight);
-        Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
+        frameWidth = frameHeight;
+        while (seekbarWidth % frameWidth > 10) {
+            frameWidth --;
+        }
 
-       // frameHeight = frameWidth;
+        TOTALFRAME = seekbarWidth / frameWidth;
+
+/*        while (TOTALFRAME * frameHeight > seekbarWidth) {
+            TOTALFRAME--;
+        }
+
+        int newSeekbarPadding = seekbarWidth - (TOTALFRAME * frameHeight);
+
+        FrameLayout searchPin = (FrameLayout) findViewById(R.id.range_seekbar);
+        searchPin.setPadding(135, 176, 0, 0);
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) searchPin.getLayoutParams();
+        //params.setMargins(135, 176, 0, 0);
+        params.setMarginEnd(newSeekbarPadding); // also not worked
+        //params.topMargin = 376;
+      //  searchPin.setLayoutParams(params);
+
+  */
+        //TOTALFRAME = (width / frameHeight)+1;
+        Log.d("TOTAL FRAME", String.valueOf(TOTALFRAME));
+        Log.d("fHeight: ", String.valueOf(frameWidth));
+
+
+        // frameHeight = frameWidth;
     }
 }
