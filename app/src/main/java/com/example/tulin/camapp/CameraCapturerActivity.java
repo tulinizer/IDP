@@ -559,9 +559,11 @@ public class CameraCapturerActivity extends ActivityWithTimeline implements Came
             org.m4m.AudioFormat audioFormat = new AudioFormatAndroid("audio/mp4a-latm", 44100, 1);
             capture.setTargetAudioFormat(audioFormat);
 
-            if (muteAudioEffect != null) {
+         /*   if (muteAudioEffect != null) {
                 capture.addAudioEffect(muteAudioEffect);
             }
+         */
+
         }
     }
 
