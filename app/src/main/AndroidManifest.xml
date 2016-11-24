@@ -31,14 +31,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".VideoEditing"
-            android:label="@string/title_activity_video_editing"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".VideoEditingTT"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".Record"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ComposerTranscodeCoreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Transcode Video Core">
         </activity>
+        <activity
+            android:name=".RecordVideo"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Record Video">
+        </activity>
+        <activity
+            android:name=".VideoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Play Video">
+        </activity>
+        <activity
+            android:name=".CameraCapturerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Capture Video">
+        </activity>
+        <activity
+            android:name=".AddBookmarkActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:label="Add Bookmark">
+        </activity>
+        <activity
+            android:name=".PlaybackActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:label="Playback">
+        </activity>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -1,1 +1,4 @@
-include ':app'
+include ':app', ':android', ':domain', ':effects'
+project(':android').projectDir = new File('libs/android')
+project(':domain').projectDir = new File('libs/domain')
+project(':effects').projectDir = new File('libs/effects')

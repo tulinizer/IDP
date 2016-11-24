@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="12">
+
+        <FrameLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="4dp"
+                android:layout_gravity="center"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:background="@color/colorPrimaryDark" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="8" >
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2">
+
+
+                <EditText
+                    android:id="@+id/edittextTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="invisible"
+                    android:layout_marginTop="0dp"
+                    android:hint="Enter tag"
+                    android:layout_weight="0.5"/>
+
+                <EditText
+                    android:id="@+id/edittextDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="invisible"
+                    android:layout_marginTop="0dp"
+                    android:hint="Enter description"
+
+                    android:layout_weight="0.5"/>
+
+                <Button
+                    android:id="@+id/bookmark_button"
+
+                    android:text="Add bookmark"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:background="@drawable/buttonshape"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+
+                    android:shadowColor="#000000"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+
+                    android:layout_weight="0.5"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text=""
+                    android:id="@+id/textView_ts"
+
+                    android:layout_weight="0.5"/>
+
+
+            </LinearLayout>
+
+            <VideoView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/video_view"
+                android:layout_weight="4" />
+
+
+            <ExpandableListView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/expandableListView"
+                android:background="@drawable/expandable_list_view"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                android:layout_weight="2"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/timestampMin"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:layout_gravity="center_vertical"/>
+
+            <com.example.tulin.camapp.DrawBookmarkText
+                android:id="@+id/bookmark_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:layout_marginStart="60dp"
+                android:layout_gravity="bottom"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:id="@+id/linear_images"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp" >
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/range_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp">
+
+            </FrameLayout>
+
+
+            <com.example.tulin.camapp.DrawBookmarkLine
+                android:id="@+id/bookmark_line"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_rect"
+
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_rect"
+                android:layout_marginBottom="5dp">
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/play_button"
+                    android:background="@drawable/ic_pause"
+                    />
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

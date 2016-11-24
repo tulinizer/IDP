@@ -7,13 +7,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.math.BigDecimal;
 
@@ -37,21 +37,23 @@ import java.math.BigDecimal;
 public class TwoThumbsSeekbar<T extends Number> extends ImageView {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    private final Bitmap Left_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_min_normal);
-    private final Bitmap Left_thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_min_pressed);
-    private Boolean isLeftThumb=false;
-    public static boolean minThumbPressed;
+    private final Bitmap Left_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seekbar_norm);
+    private final Bitmap Left_thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seekbar_norm);
+    private final Bitmap Right_thumbImage_nrml = BitmapFactory.decodeResource(getResources(), R.drawable.seekbar_norm);
+    private final Bitmap Right_thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seekbar_norm);
+    private Boolean isLeftThumb=false,isRightThumb=false;
+    public static boolean minThumbPressed,maxThumbPressed;
 
     private final float thumbWidth = Left_thumbImage_nrml.getWidth();
     private final float thumbHalfWidth = 0.5f * thumbWidth;
     private final float thumbHalfHeight = 0.5f * Left_thumbImage_nrml.getHeight();
-    private final float lineHeight = 0.3f * thumbHalfHeight;
+  //  private final float lineHeight = 0.f * thumbHalfHeight;
     private final float padding = thumbHalfWidth;
     private final T absoluteMinValue, absoluteMaxValue;
     private final NumberType numberType;
     private final double absoluteMinValuePrim, absoluteMaxValuePrim;
-    private double normalizedMinValue = 0d;
-    private double normalizedMaxValue = 1d;
+    private double normalizedMinValue = 0.1d;
+    private double normalizedMaxValue = 0.9d;
     private Thumb pressedThumb = null;
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;
@@ -100,14 +102,21 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
         absoluteMaxValuePrim = absoluteMaxValue.doubleValue();
         numberType = NumberType.fromNumber(absoluteMinValue);
 
+
         // make RangeSeekBar focusable. This solves focus handling issues in case EditText widgets are being used along with the RangeSeekBar within ScollViews.
         setFocusable(true);
         setFocusableInTouchMode(true);
+
         init();
+
     }
 
     private final void init() {
         mScaledTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+
+
+       // textView.bringToFront();
+
     }
 
     public boolean isNotifyWhileDragging() {
@@ -259,6 +268,7 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
 
                     if (notifyWhileDragging && listener != null) {
                         listener.onRangeSeekBarValuesChanged(this, getSelectedMinValue(), getSelectedMaxValue());
+
                     }
                 }
                 break;
@@ -378,24 +388,34 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
         super.onDraw(canvas);
 
         // draw seek bar background line
-        final RectF rect = new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.GRAY);
-        paint.setAntiAlias(true);
-        canvas.drawRect(rect, paint);
+       // final RectF rect = new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
+       // paint.setStyle(Paint.Style.FILL);
+       // paint.setColor(Color.GRAY);
+       // paint.setAntiAlias(true);
+       // canvas.drawRect(rect, paint);
 
         // draw seek bar active range line
-        rect.left = normalizedToScreen(normalizedMinValue);
-        rect.right = normalizedToScreen(normalizedMaxValue);
+     //   rect.left = normalizedToScreen(normalizedMinValue);
+      //  rect.right = normalizedToScreen(normalizedMaxValue);
 
         // orange color
         paint.setColor(DEFAULT_COLOR);
-        canvas.drawRect(rect, paint);
+        //  canvas.drawRect(rect, paint);
 
         // draw minimum thumb
         drawLThumb(normalizedToScreen(normalizedMinValue), pressedThumb, canvas);
 
+     //   canvas.drawText(String.format("%.2f", getSelectedMinValue()), (float) normalizedMinValue, (float) ((0.5f * getHeight())), paint);
+//        textView.bringToFront();
+ //       textView.invalidate();
 
+        //  int val = (minValue * (seekbarWidth - 2 * seekBar.getThumbOffset())) / seekBar.getMax();
+   //     textView.setText("" + String.format("%.2f", getSelectedMinValue()));
+    //    textView.setX(normalizedToScreen(normalizedMinValue));
+
+        // draw maximum thumb
+        drawRThumb(normalizedToScreen(normalizedMaxValue), pressedThumb, canvas);
+      //  Log.d("max val:", String.valueOf(normalizedToScreen(normalizedMaxValue)));
     }
 
     /**
@@ -438,6 +458,11 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
         isLeftThumb=false;
     }
 
+    private void drawRThumb(float screenCoord, Thumb pressed, Canvas canvas) {
+        Log.w("lftBoolean",isRightThumb.toString());
+        canvas.drawBitmap(isRightThumb ? Right_thumbPressedImage : Right_thumbImage_nrml, screenCoord - thumbHalfWidth, (float) ((0.5f * getHeight()) - thumbHalfHeight), paint);
+        isRightThumb=false;
+    }
 
     /**
      * Handle thumbs when user does not touch thumb or touches on seekbar
@@ -456,7 +481,7 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
      * @return The pressed thumb or null if none has been touched.
      */
     private Thumb evalPressedThumb(float touchX) {
-  /*      Thumb result = null;
+        Thumb result = null;
         minThumbPressed = isInThumbRange(touchX, normalizedMinValue);
         maxThumbPressed = isInThumbRange(touchX, normalizedMaxValue);
         if (minThumbPressed && maxThumbPressed) {
@@ -471,8 +496,7 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
             result = Thumb.MAX;
             isRightThumb=true;
         }
-        */
-        return Thumb.MIN;
+        return result;
     }
 
     /**
@@ -544,7 +568,8 @@ public class TwoThumbsSeekbar<T extends Number> extends ImageView {
      * @return The converted value in screen space.
      */
     private float normalizedToScreen(double normalizedCoord) {
-        return (float) (padding + normalizedCoord * (getWidth() - 2 * padding));
+        return (float) ((normalizedCoord * (getWidth())));
+      //  return (float) (padding + normalizedCoord * (getWidth() - 2 * padding));
     }
 
     /**

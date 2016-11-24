@@ -1,111 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center" >
-
-        <VideoView
-            android:layout_width="480dp"
-            android:layout_height="326dp"
-            android:id="@+id/video_view" />
-    </LinearLayout>
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
-        android:id="@+id/play_button"
-        android:layout_gravity="bottom"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pause"
-        android:id="@+id/pause_button"
-        android:layout_gravity="bottom"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <FrameLayout
-        android:id="@+id/range_seekbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" >
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="12">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/horizontal_scroll"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="400dp">
+        <FrameLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="4dp"
+                android:layout_gravity="center"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:background="@color/colorPrimaryDark" />
+
+        </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="8" >
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trim"
+                    android:id="@+id/trim_button"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_weight="0.5"
+
+                    android:shadowColor="#000000"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:background="@drawable/buttonshape" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cut"
+                    android:id="@+id/cut_button"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_weight="0.5"
+
+                    android:shadowColor="#000000"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:background="@drawable/buttonshape" />
+
+            </LinearLayout>
+
+
+
+            <VideoView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/video_view"
+                android:layout_weight="6" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Apply Trim"
+                android:id="@+id/apply"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:background="@drawable/buttonshape"
+
+                android:shadowColor="#000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"/>
+
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/timestampMin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/timestampMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" >
+
+            <LinearLayout
                 android:id="@+id/linear_images"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal" >
-        </LinearLayout>
+                android:orientation="horizontal"
 
-    </HorizontalScrollView>
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                >
+            </LinearLayout>
 
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
-        android:id="@+id/timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/seekBar"
-        android:layout_alignLeft="@+id/horizontal_scroll"
-        android:layout_alignStart="@+id/horizontal_scroll" />
+            <FrameLayout
+                android:id="@+id/range_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Split"
-        android:id="@+id/split_button"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_toRightOf="@+id/play_button"
-        android:layout_toEndOf="@+id/play_button" />
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp">
 
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:thumb="@drawable/seekbar_norm"
-        android:maxHeight="700dp"
-        android:thumbOffset="8dp"
-        android:progressDrawable="@android:color/transparent"
-        android:layout_alignBottom="@+id/horizontal_scroll"
-        android:layout_alignTop="@+id/horizontal_scroll"
-        android:layout_alignLeft="@+id/horizontal_scroll"
-        android:layout_alignRight="@+id/horizontal_scroll"
-        android:layout_alignStart="@+id/horizontal_scroll" />
+            </FrameLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iconView"
-        android:layout_alignLeft="@+id/horizontal_scroll"
-        android:layout_alignBottom="@+id/horizontal_scroll"
-        android:layout_alignTop="@+id/horizontal_scroll"
-        android:layout_alignRight="@+id/horizontal_scroll"
-        android:layout_alignEnd="@+id/horizontal_scroll"/>
+            <com.example.tulin.camapp.DrawRect
+                android:id="@+id/rect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gray_rect"
 
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_rect"
+                android:layout_marginBottom="5dp">
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/play_button"
+                    android:background="@drawable/ic_pause"
+                    />
+
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
 
 </RelativeLayout>

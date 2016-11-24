@@ -1,12 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -16,5 +17,119 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="TimelineItemBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:background">@drawable/timeline_item_bar_background</item>
+    </style>
+
+    <style name="TimelineItemButton">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+    </style>
+
+    <style name="TimelineItemOpenButton" parent="TimelineItemButton">
+        <item name="android:src">@drawable/ic_open</item>
+        <item name="android:background">@drawable/timeline_item_button_background</item>
+    </style>
+
+    <style name="TimelineItemDeleteButton" parent="TimelineItemButton">
+        <item name="android:src">@drawable/ic_delete</item>
+        <item name="android:background">@drawable/timeline_item_button_background</item>
+    </style>
+
+    <style name="TimelineItemTitle" parent="TimelineItemButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Popups" />
+
+    <!-- Down -->
+    <style name="Popups.Down" />
+
+    <style name="Popups.Down.Left">
+        <item name="@android:windowEnterAnimation">@anim/show_tl_to_br</item>
+        <item name="@android:windowExitAnimation">@anim/hide_br_to_tl</item>
+    </style>
+
+    <style name="Popups.Down.Right">
+        <item name="@android:windowEnterAnimation">@anim/show_tr_to_bl</item>
+        <item name="@android:windowExitAnimation">@anim/hide_bl_to_tr</item>
+    </style>
+
+    <!-- Up -->
+    <style name="Popups.Up" />
+
+    <style name="Popups.Up.Left">
+        <item name="@android:windowEnterAnimation">@anim/show_bl_to_tr</item>
+        <item name="@android:windowExitAnimation">@anim/hide_tr_to_bl</item>
+    </style>
+
+    <style name="Popups.Up.Right">
+        <item name="@android:windowEnterAnimation">@anim/show_br_to_tl</item>
+        <item name="@android:windowExitAnimation">@anim/hide_tl_to_br</item>
+    </style>
+
+    <style name="RoundBorderButton">
+        <item name="android:background">@drawable/round_border_button</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">72dp</item>
+    </style>
+    <style name="SettingsButton" parent="RoundBorderButton">
+        <item name="android:src">@drawable/settings</item>
+    </style>
+
+    <style name="EffectsList">
+        <item name="android:layout_width">128dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bar_background</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="EffectButton">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:background">@drawable/timeline_item_button_background</item>
+    </style>
+    <style name="PreviewButton">
+        <item name="android:background">@drawable/round_rect</item>
+        <item name="android:layout_width">128dp</item>
+        <item name="android:layout_height">96dp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+    <style name="RoundButton">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">72dp</item>
+    </style>
+    <style name="RecordInactive" parent="RoundButton">
+        <item name="android:src">@drawable/rec_inact</item>
+    </style>
+    <style name="CameraChangeButton" parent="RoundBorderButton">
+        <item name="android:src">@drawable/change_camera</item>
+    </style>
+    <style name="RoundFocusRect">
+        <item name="android:background">@drawable/round_focus_rect</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">72dp</item>
+    </style>
+
+
+
 
 </resources>
